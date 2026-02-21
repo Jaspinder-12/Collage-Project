@@ -1,15 +1,15 @@
-import pytest
-from unittest.mock import MagicMock, patch
 import sys
-import os
+from unittest.mock import MagicMock, patch
+import pytest
 
 # Mock dependencies that are missing or involve binary files
 sys.modules['joblib'] = MagicMock()
 sys.modules['numpy'] = MagicMock()
-import numpy
+import numpy  # noqa: E402
 numpy.array = MagicMock(return_value=MagicMock())
 
-from app import app
+from app import app  # noqa: E402
+
 
 @pytest.fixture
 def client():
@@ -17,20 +17,24 @@ def client():
     with app.test_client() as client:
         yield client
 
+
 def test_index(client):
     rv = client.get('/')
     assert rv.status_code == 200
     assert b"Home" in rv.data
+
 
 def test_predict_invalid_input(client):
     rv = client.post('/predict', data={'item_weight': 'abc'})
     assert rv.status_code == 400
     assert b"Invalid input" in rv.data
 
+
 def test_predict_missing_input(client):
     rv = client.post('/predict', data={})
     assert rv.status_code == 400
     assert b"Invalid input" in rv.data
+
 
 def test_predict_valid_input_no_model(client):
     # This should trigger the 500 error I added for missing models
@@ -50,6 +54,7 @@ def test_predict_valid_input_no_model(client):
         })
         assert rv.status_code == 500
         assert b"model not found" in rv.data
+
 
 def test_predict_full_success(client):
     # Mock everything to test the full path
