@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, render_template, request
 import joblib
-import os
 import numpy as np
 
 app = Flask(__name__)
