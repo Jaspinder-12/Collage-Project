@@ -33,7 +33,7 @@ sys.modules['numpy'] = numpy_mock
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Import the app module
-import app
+import app  # noqa: E402
 
 class TestApp(unittest.TestCase):
 
