@@ -1,6 +1,6 @@
 import unittest
 from app import app
-import os
+
 
 class FlaskTestCase(unittest.TestCase):
 
@@ -28,6 +28,7 @@ class FlaskTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         # Check if the response contains the prediction result
         self.assertIn(b'Predicted Item Outlet Sales:', response.data)
+
 
 if __name__ == '__main__':
     unittest.main()

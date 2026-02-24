@@ -1,14 +1,15 @@
 import pandas as pd
-import numpy as np
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 import joblib
 import os
 
+
 def clean_column_names(df):
     df.columns = df.columns.str.lower().str.replace('.', '_')
     return df
+
 
 def train_and_save_models():
     # Load data
@@ -65,6 +66,7 @@ def train_and_save_models():
     # Save Model
     joblib.dump(lr, os.path.join('models', 'lr.sav'))
     print("Model saved to models/lr.sav")
+
 
 if __name__ == "__main__":
     train_and_save_models()
