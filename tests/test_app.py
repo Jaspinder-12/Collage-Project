@@ -4,11 +4,11 @@ import os
 import sys
 import numpy as np
 
-# Mock joblib before importing app if it were used at module level, but it's not.
-# However, importing app will execute module level code.
-# app.py imports joblib. We are fine.
+# Add parent directory to sys.path so app can be imported
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from app import app
+from app import app  # noqa: E402
+
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
@@ -20,7 +20,7 @@ class AppTestCase(unittest.TestCase):
     def test_predict_success(self, mock_load, mock_render):
         # Mock scaler
         mock_scaler = MagicMock()
-        mock_scaler.transform.return_value = [[1,2,3,4,5,6,7,8,9]]
+        mock_scaler.transform.return_value = [[1, 2, 3, 4, 5, 6, 7, 8, 9]]
 
         # Mock model
         mock_model = MagicMock()
@@ -78,6 +78,7 @@ class AppTestCase(unittest.TestCase):
         response = self.app.post('/predict', data=data)
         # Expect 400 (Bad Request) handled by try-except block
         self.assertEqual(response.status_code, 400)
+
 
 if __name__ == '__main__':
     unittest.main()
