@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BigMart Sales Prediction</title>
+</head>
+<body>
+    <h1>BigMart Sales Prediction</h1>
+    <form action="/predict" method="post">
+        <label for="item_weight">Item Weight:</label>
+        <input type="text" id="item_weight" name="item_weight"><br><br>
+
+        <label for="item_fat_content">Item Fat Content (0: Low Fat, 1: Regular, etc.):</label>
+        <input type="text" id="item_fat_content" name="item_fat_content"><br><br>
+
+        <label for="item_visibility">Item Visibility:</label>
+        <input type="text" id="item_visibility" name="item_visibility"><br><br>
+
+        <label for="item_type">Item Type (Encoded):</label>
+        <input type="text" id="item_type" name="item_type"><br><br>
+
+        <label for="item_mrp">Item MRP:</label>
+        <input type="text" id="item_mrp" name="item_mrp"><br><br>
+
+        <label for="outlet_establishment_year">Outlet Establishment Year:</label>
+        <input type="text" id="outlet_establishment_year" name="outlet_establishment_year"><br><br>
+
+        <label for="outlet_size">Outlet Size (Encoded):</label>
+        <input type="text" id="outlet_size" name="outlet_size"><br><br>
+
+        <label for="outlet_location_type">Outlet Location Type (Encoded):</label>
+        <input type="text" id="outlet_location_type" name="outlet_location_type"><br><br>
+
+        <label for="outlet_type">Outlet Type (Encoded):</label>
+        <input type="text" id="outlet_type" name="outlet_type"><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>
