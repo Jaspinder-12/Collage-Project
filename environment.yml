@@ -1,0 +1,12 @@
+name: base
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - flask
+  - numpy
+  - scikit-learn
+  - pandas
+  - joblib
+  - pytest
+  - flake8
