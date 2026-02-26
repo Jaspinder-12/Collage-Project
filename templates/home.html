@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BigMart Sales Prediction</title>
+</head>
+<body>
+    <h1>BigMart Sales Prediction</h1>
+    <form action="/predict" method="post">
+        <label>Item Weight:</label> <input type="text" name="item_weight" value="10.5"><br>
+        <label>Item Fat Content (0-4):</label> <input type="text" name="item_fat_content" value="1"><br>
+        <label>Item Visibility:</label> <input type="text" name="item_visibility" value="0.05"><br>
+        <label>Item Type (0-15):</label> <input type="text" name="item_type" value="4"><br>
+        <label>Item MRP:</label> <input type="text" name="item_mrp" value="150.0"><br>
+        <label>Outlet Establishment Year:</label> <input type="text" name="outlet_establishment_year" value="1999"><br>
+        <label>Outlet Size (0-2):</label> <input type="text" name="outlet_size" value="1"><br>
+        <label>Outlet Location Type (0-2):</label> <input type="text" name="outlet_location_type" value="2"><br>
+        <label>Outlet Type (0-3):</label> <input type="text" name="outlet_type" value="1"><br>
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>
