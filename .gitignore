@@ -4,5 +4,3 @@ __pycache__/
 *.pyd
 .pytest_cache/
 models/
-create_dummy_models.py
-tests/
