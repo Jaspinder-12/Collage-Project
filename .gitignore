@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+models/
+create_dummy_models.py
+tests/
