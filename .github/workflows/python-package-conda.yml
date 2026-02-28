@@ -21,6 +21,9 @@ jobs:
     - name: Install dependencies
       run: |
         conda env update --file environment.yml --name base
+    - name: Run script to generate models
+      run: |
+        python create_dummy_models.py
     - name: Lint with flake8
       run: |
         conda install flake8
