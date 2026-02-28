@@ -1,44 +1,48 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, render_template, request
 import joblib
 import os
 import numpy as np
 
 app = Flask(__name__)
 
+# Load models globally at startup to avoid I/O bottlenecks on every request
+scaler_path = os.path.join(os.path.dirname(__file__), "models", "sc.sav")
+sc = joblib.load(scaler_path)
+
+model_path = os.path.join(os.path.dirname(__file__), "models", "lr.sav")
+model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
     return render_template("home.html")
 
-@app.route('/predict',methods=['POST','GET'])
+
+@app.route('/predict', methods=['POST', 'GET'])
 def result():
 
-    item_weight= float(request.form['item_weight'])
-    item_fat_content=float(request.form['item_fat_content'])
-    item_visibility= float(request.form['item_visibility'])
-    item_type= float(request.form['item_type'])
+    item_weight = float(request.form['item_weight'])
+    item_fat_content = float(request.form['item_fat_content'])
+    item_visibility = float(request.form['item_visibility'])
+    item_type = float(request.form['item_type'])
     item_mrp = float(request.form['item_mrp'])
-    outlet_establishment_year= float(request.form['outlet_establishment_year'])
-    outlet_size= float(request.form['outlet_size'])
-    outlet_location_type= float(request.form['outlet_location_type'])
-    outlet_type= float(request.form['outlet_type'])
+    outlet_establishment_year = float(request.form['outlet_establishment_year'])
+    outlet_size = float(request.form['outlet_size'])
+    outlet_location_type = float(request.form['outlet_location_type'])
+    outlet_type = float(request.form['outlet_type'])
 
-    X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
-                  outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
+    X = np.array([[item_weight, item_fat_content, item_visibility, item_type, item_mrp,
+                   outlet_establishment_year, outlet_size, outlet_location_type, outlet_type]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    X_std = sc.transform(X)
 
-    sc=joblib.load(scaler_path)
+    Y_pred = model.predict(X_std)
 
-    X_std= sc.transform(X)
+    # Handle potentially array-like prediction response
+    prediction_val = Y_pred[0] if hasattr(Y_pred, "__len__") else Y_pred
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+    return render_template("result.html", prediction=float(prediction_val))
 
-    model= joblib.load(model_path)
-
-    Y_pred=model.predict(X_std)
-
-    return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
     app.run(debug=True, port=9457)
