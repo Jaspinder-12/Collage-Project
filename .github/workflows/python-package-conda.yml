@@ -28,7 +28,10 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Setup dummy models
+      run: |
+        python -c "import os, joblib, numpy as np; from sklearn.preprocessing import StandardScaler; from sklearn.linear_model import LinearRegression; os.makedirs('models', exist_ok=True); sc=StandardScaler(); sc.fit(np.random.rand(10, 9)); joblib.dump(sc, 'models/sc.sav'); lr=LinearRegression(); lr.fit(np.random.rand(10, 9), np.random.rand(10)); joblib.dump(lr, 'models/lr.sav')"
     - name: Test with pytest
       run: |
         conda install pytest
-        pytest
+        PYTHONPATH=. pytest
