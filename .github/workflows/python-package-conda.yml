@@ -31,4 +31,6 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest
-        pytest
+        pip install -r requirements.txt || pip install flask joblib numpy scikit-learn pandas pytest requests flake8 playwright
+        python create_dummy_models.py
+        PYTHONPATH=. pytest
