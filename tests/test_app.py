@@ -1,6 +1,5 @@
 import pytest
 from app import app as main_app
-from bs4 import BeautifulSoup
 import app
 
 @pytest.fixture
