@@ -1,0 +1,12 @@
+name: base
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - flask
+    - numpy
+    - scikit-learn
+    - joblib
+    - pandas
+    - pytest
+    - flake8
