@@ -2,8 +2,12 @@ import pytest
 from app import app
 
 @pytest.fixture
-def client():
+def client(monkeypatch):
     app.config['TESTING'] = True
+
+    # Mock render_template to return a dummy string instead of looking for files we don't have
+    monkeypatch.setattr('app.render_template', lambda *args, **kwargs: 'mocked template')
+
     with app.test_client() as client:
         yield client
 
