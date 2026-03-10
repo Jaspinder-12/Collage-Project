@@ -1,0 +1,3 @@
+## 2024-03-09 - Model Loading Bottleneck in Flask Routes
+**Learning:** In a typical Flask ML deployment, doing disk I/O to load models (via `joblib.load()`) inside a route handler (e.g., `/predict`) blocks the main thread and introduces significant per-request overhead, effectively destroying scalability.
+**Action:** Always hoist model loading to the global application context (startup) so that models reside in memory across requests. Handle `FileNotFoundError` gracefully during initialization so that the application can still start (for example, to run tests or render the homepage) even if the model files aren't physically present on the deployment server or developer machine.
