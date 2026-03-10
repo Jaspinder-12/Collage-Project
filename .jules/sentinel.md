@@ -1,0 +1,4 @@
+## 2024-03-10 - Unhandled Exceptions as DoS and Debug Mode Stack Trace Leakage
+**Vulnerability:** The application endpoint `/predict` casts request form inputs to float without handling KeyError or ValueError exceptions, leading to unhandled 500 server errors that could be used for DoS. Additionally, debug=True in `app.run` could expose sensitive stack trace information on errors.
+**Learning:** These practices are problematic for production environments because malicious users can send improper payloads to exhaust server resources with exceptions or view sensitive variables through debug stacks.
+**Prevention:** Always implement `try...except` around explicit casting of HTTP inputs to gracefully return a 400 Bad Request error. Disable debug mode by setting `app.run(debug=False)` or configuring it through environment variables rather than hardcoding.
