@@ -14,8 +14,7 @@ def test_index_route(client, monkeypatch):
     assert response.status_code == 200
     assert response.data == b'home.html'
 
-def test_predict_route_bad_request(client, monkeypatch):
-    monkeypatch.setattr(app_module, 'render_template', lambda template_name, **context: template_name)
+def test_predict_route_bad_request(client):
     response = client.post('/predict', data={
         # Missing or invalid data to trigger 400 Bad Request
         'item_weight': 'invalid'
