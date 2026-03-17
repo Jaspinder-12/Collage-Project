@@ -1,0 +1,4 @@
+## 2024-05-18 - [CRITICAL] Fix 500 error DoS risk on Unhandled Form Inputs & Information Exposure
+**Vulnerability:** The application was vulnerable to Denial of Service (DoS) due to unhandled form inputs triggering 500 Internal Server Errors, and Information Exposure because `app.run(debug=True)` was enabled in production.
+**Learning:** `debug=True` leaks sensitive internal details (stack traces, paths, code) in production if unhandled exceptions occur. Failing to validate form inputs cleanly results in these exceptions, compounding the issue.
+**Prevention:** Always run production Flask apps with `debug=False`. Wrap form extraction logic (`request.form`) and type casting (`float()`) in robust `try...except` blocks that handle expected errors (KeyError, ValueError, TypeError) and explicitly return standard HTTP 4xx errors (e.g., 400 Bad Request) before attempting to use the invalid data for modeling.
