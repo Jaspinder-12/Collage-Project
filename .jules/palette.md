@@ -1,0 +1,3 @@
+## 2024-03-18 - Standardize Form Input Accessibility
+**Learning:** Even when all fields are marked `required` in HTML, users benefit from explicit visual cues (like a red asterisk). Furthermore, explicitly setting a high-contrast focus ring (using `box-shadow` instead of the default `outline`) across `input` and `button` elements significantly improves keyboard navigation visibility without compromising the visual design.
+**Action:** Always append visual required indicators (`label[for]::after`) and explicit `:focus` / `:focus-visible` styles with smooth transitions for interactive form elements to ensure consistent cross-browser accessibility.
