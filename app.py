@@ -5,6 +5,19 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Load models once at startup to improve request latency
+sc = None
+model = None
+
+def load_models():
+    global sc, model
+    if sc is None:
+        scaler_path = os.path.join(os.path.dirname(__file__), 'models', 'sc.sav')
+        sc = joblib.load(scaler_path)
+    if model is None:
+        model_path = os.path.join(os.path.dirname(__file__), 'models', 'lr.sav')
+        model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
@@ -26,19 +39,15 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    load_models()
 
-    sc=joblib.load(scaler_path)
+    X_std = sc.transform(X)
 
-    X_std= sc.transform(X)
+    # Predict and convert array to float for template
+    Y_pred = model.predict(X_std)
+    prediction_value = float(Y_pred[0]) if hasattr(Y_pred, '__len__') else float(Y_pred)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
-
-    Y_pred=model.predict(X_std)
-
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction=prediction_value)
 
 if __name__ == "__main__":
     app.run(debug=True, port=9457)
