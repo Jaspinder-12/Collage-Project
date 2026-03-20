@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigMart Sales Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 8px; max-width: 600px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; }
+        label { display: block; margin-top: 10px; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; transition: border-color 0.2s, box-shadow 0.2s; }
+        input[type="text"]:focus, input[type="number"]:focus { outline: none; border-color: #28a745; box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.3); }
+        input[type="submit"], button { width: 100%; padding: 10px; margin-top: 20px; background: #28a745; color: #fff; border: none; cursor: pointer; border-radius: 5px; transition: background-color 0.2s, box-shadow 0.2s; }
+        input[type="submit"]:hover, button:hover { background: #218838; }
+        input[type="submit"]:focus-visible, button:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>BigMart Sales Prediction</h1>
+        <form action="/predict" method="POST">
+            <label for="item_weight">Item Weight</label>
+            <input type="number" step="any" id="item_weight" name="item_weight" required>
+
+            <label for="item_fat_content">Item Fat Content</label>
+            <input type="text" id="item_fat_content" name="item_fat_content" required>
+
+            <label for="item_visibility">Item Visibility</label>
+            <input type="number" step="any" id="item_visibility" name="item_visibility" required>
+
+            <label for="item_type">Item Type</label>
+            <input type="text" id="item_type" name="item_type" required>
+
+            <label for="item_mrp">Item MRP</label>
+            <input type="number" step="any" id="item_mrp" name="item_mrp" required>
+
+            <label for="outlet_establishment_year">Outlet Establishment Year</label>
+            <input type="number" id="outlet_establishment_year" name="outlet_establishment_year" required>
+
+            <label for="outlet_size">Outlet Size</label>
+            <input type="text" id="outlet_size" name="outlet_size" required>
+
+            <label for="outlet_location_type">Outlet Location Type</label>
+            <input type="text" id="outlet_location_type" name="outlet_location_type" required>
+
+            <label for="outlet_type">Outlet Type</label>
+            <input type="text" id="outlet_type" name="outlet_type" required>
+
+            <button type="submit">Predict Sales</button>
+        </form>
+    </div>
+</body>
+</html>
