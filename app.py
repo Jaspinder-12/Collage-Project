@@ -5,6 +5,22 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Global variables to cache models in memory
+sc = None
+model = None
+
+def load_models():
+    """Lazily load machine learning models to prevent I/O bottleneck on every request."""
+    global sc, model
+
+    if sc is None:
+        scaler_path = os.path.join(os.path.dirname(__file__), 'models', 'sc.sav')
+        sc = joblib.load(scaler_path)
+
+    if model is None:
+        model_path = os.path.join(os.path.dirname(__file__), 'models', 'lr.sav')
+        model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
@@ -26,15 +42,10 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
+    # Load models into memory if not already cached
+    load_models()
 
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
