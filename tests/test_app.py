@@ -1,6 +1,5 @@
 import pytest
 import app as app_module
-from flask import template_rendered
 
 @pytest.fixture
 def client():
@@ -14,11 +13,14 @@ def test_index_route(client, monkeypatch):
     assert response.status_code == 200
     assert response.data.decode('utf-8') == 'home.html'
 
+
+
 class DummyModel:
     def transform(self, X):
         return X
     def predict(self, X):
         return 42.0
+
 
 def test_predict_route(client, monkeypatch):
     monkeypatch.setattr(app_module, 'render_template', lambda template_name_or_list, **context: f"{template_name_or_list} {context}")
