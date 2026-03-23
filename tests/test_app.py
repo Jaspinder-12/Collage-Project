@@ -1,4 +1,10 @@
 import pytest
+import sys
+import os
+
+# Add the parent directory to the path so pytest can find app.py
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import app as app_module
 from app import app
 
