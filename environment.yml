@@ -1,0 +1,16 @@
+name: base
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - flask
+  - joblib
+  - numpy
+  - scikit-learn
+  - pandas
+  - requests
+  - pytest
+  - flake8
+  - playwright
