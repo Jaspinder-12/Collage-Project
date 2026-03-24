@@ -6,12 +6,18 @@ import numpy as np
 app = Flask(__name__)
 
 
+sc = None
+model = None
+
 @app.route("/")
 def index():
     return render_template("home.html")
 
 @app.route('/predict',methods=['POST','GET'])
 def result():
+
+    global sc
+    global model
 
     item_weight= float(request.form['item_weight'])
     item_fat_content=float(request.form['item_fat_content'])
@@ -26,15 +32,15 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
+    if sc is None:
+        scaler_path=os.path.join(os.path.dirname(__file__), 'models', 'sc.sav')
+        sc=joblib.load(scaler_path)
 
     X_std= sc.transform(X)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
+    if model is None:
+        model_path=os.path.join(os.path.dirname(__file__), 'models', 'lr.sav')
+        model=joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
