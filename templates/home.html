@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigMart Sales Prediction</title>
+    <style>
+        label[for]::after {
+            content: " *";
+            color: red;
+        }
+        input:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+        button {
+            cursor: pointer;
+        }
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <h1>BigMart Sales Prediction</h1>
+    <form action="/predict" method="POST">
+        <div>
+            <label for="item_weight">Item Weight</label>
+            <input type="number" step="any" id="item_weight" name="item_weight" required>
+        </div>
+        <div>
+            <label for="item_fat_content">Item Fat Content</label>
+            <input type="number" id="item_fat_content" name="item_fat_content" min="0" max="4" placeholder="e.g., 0 for LF, 2 for Regular" required>
+        </div>
+        <div>
+            <label for="item_visibility">Item Visibility</label>
+            <input type="number" step="any" id="item_visibility" name="item_visibility" required>
+        </div>
+        <div>
+            <label for="item_type">Item Type</label>
+            <input type="number" id="item_type" name="item_type" min="0" placeholder="e.g., 0 to 15" required>
+        </div>
+        <div>
+            <label for="item_mrp">Item MRP</label>
+            <input type="number" step="any" id="item_mrp" name="item_mrp" required>
+        </div>
+        <div>
+            <label for="outlet_establishment_year">Outlet Establishment Year</label>
+            <input type="number" step="any" id="outlet_establishment_year" name="outlet_establishment_year" placeholder="e.g., 1999" required>
+        </div>
+        <div>
+            <label for="outlet_size">Outlet Size</label>
+            <input type="number" id="outlet_size" name="outlet_size" min="0" max="2" placeholder="e.g., 0 for High, 2 for Small" required>
+        </div>
+        <div>
+            <label for="outlet_location_type">Outlet Location Type</label>
+            <input type="number" id="outlet_location_type" name="outlet_location_type" min="0" max="2" placeholder="e.g., 0 for Tier 1, 2 for Tier 3" required>
+        </div>
+        <div>
+            <label for="outlet_type">Outlet Type</label>
+            <input type="number" id="outlet_type" name="outlet_type" min="0" max="3" placeholder="e.g., 0 to 3" required>
+        </div>
+        <button type="submit" id="submit_btn">Predict Sales</button>
+    </form>
+    <script>
+        const form = document.querySelector('form');
+        const submitBtn = document.getElementById('submit_btn');
+        form.addEventListener('submit', function() {
+            submitBtn.textContent = 'Predicting...';
+            submitBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>
