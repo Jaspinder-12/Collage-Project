@@ -5,6 +5,9 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Lazy-load models to prevent deserialization overhead on every request
+sc = None
+model = None
 
 @app.route("/")
 def index():
@@ -26,15 +29,20 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    global sc, model
+    if sc is None:
+        scaler_path = os.path.join(
+            os.path.dirname(__file__), 'models', 'sc.sav'
+        )
+        sc = joblib.load(scaler_path)
 
-    sc=joblib.load(scaler_path)
+    if model is None:
+        model_path = os.path.join(
+            os.path.dirname(__file__), 'models', 'lr.sav'
+        )
+        model = joblib.load(model_path)
 
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
