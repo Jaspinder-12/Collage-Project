@@ -1,0 +1,4 @@
+## 2024-05-15 - Missing Input Validation & Exposed Debug Mode
+**Vulnerability:** The Flask application's `/predict` endpoint blindly cast incoming user inputs to `float()` without any error handling. Additionally, the app was run with `debug=True` in production.
+**Learning:** The lack of input validation caused any missing or non-numeric input to throw an uncaught `ValueError` or `KeyError`, crashing that specific request and returning a 500 status. In combination with `debug=True`, this 500 error page exposed full internal stack traces and application environment variables to users, presenting a significant information disclosure risk and potential vector for DoS (denial-of-service).
+**Prevention:** Always wrap data type casting from untrusted input in a `try...except` block, returning a generic safe `400 Bad Request` status code upon failure. Ensure `debug=True` is never active in production.
