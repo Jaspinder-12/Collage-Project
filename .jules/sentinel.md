@@ -1,0 +1,4 @@
+## 2024-05-18 - Unhandled Input Casting and Debug Leakage
+**Vulnerability:** The Flask application's `/predict` route cast raw form input to floats without catching potential exceptions (`KeyError`, `ValueError`, `TypeError`), leading to 500 Internal Server errors and possible Denial of Service. Additionally, `app.run` had `debug=True` set, which could leak sensitive internal environment and codebase information via stack traces in production.
+**Learning:** Raw input must always be validated or placed within try-except blocks, particularly when typecasting, to prevent application crashes. Production environments should always disable `debug` mode.
+**Prevention:** Use a `try...except` block for all raw input parsing to safely return a 400 Bad Request error. Always verify `debug=False` before deploying Flask applications.
