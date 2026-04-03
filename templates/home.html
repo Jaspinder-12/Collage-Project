@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigMart Sales Prediction</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f9fafb; }
+        header { margin-bottom: 2rem; border-bottom: 1px solid #e5e7eb; padding-bottom: 1rem; }
+        h1 { color: #111827; margin: 0; }
+        p { color: #6b7280; }
+        form { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: grid; gap: 1.5rem; }
+        .form-group { display: grid; gap: 0.5rem; }
+        label { font-weight: 600; font-size: 0.875rem; color: #374151; }
+        label[for]::after { content: " *"; color: #ef4444; }
+        input, select { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 1rem; width: 100%; box-sizing: border-box; }
+        input:focus, select:focus { outline: none; border-color: #2563eb; box-shadow: 0 0 0 3px #bfdbfe; }
+        button { background-color: #2563eb; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.2s; justify-self: start; }
+        button:hover { background-color: #1d4ed8; }
+        button:focus-visible { outline: none; box-shadow: 0 0 0 3px #bfdbfe, 0 0 0 4px #2563eb; }
+        button:disabled { background-color: #9ca3af; cursor: not-allowed; }
+        .hint { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>BigMart Sales Predictor</h1>
+        <p>Enter product and store details to predict sales.</p>
+    </header>
+
+    <main>
+        <form action="/predict" method="POST" onsubmit="document.getElementById('submitBtn').disabled = true; document.getElementById('submitBtn').innerText = 'Predicting...';">
+
+            <div class="form-group">
+                <label for="item_weight">Item Weight</label>
+                <input type="number" step="any" id="item_weight" name="item_weight" required min="0" placeholder="e.g. 9.3">
+            </div>
+
+            <div class="form-group">
+                <label for="item_fat_content">Item Fat Content</label>
+                <select id="item_fat_content" name="item_fat_content" required>
+                    <option value="" disabled selected>Select fat content</option>
+                    <option value="0">Low Fat</option>
+                    <option value="1">Regular</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="item_visibility">Item Visibility</label>
+                <input type="number" step="any" id="item_visibility" name="item_visibility" required min="0" placeholder="e.g. 0.016" aria-describedby="item_visibility_hint">
+                <div class="hint" id="item_visibility_hint">The percentage of total display area allocated to this product.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="item_type">Item Type</label>
+                <select id="item_type" name="item_type" required>
+                    <option value="" disabled selected>Select item category</option>
+                    <option value="0">Baking Goods</option>
+                    <option value="1">Breads</option>
+                    <option value="2">Breakfast</option>
+                    <option value="3">Canned</option>
+                    <option value="4">Dairy</option>
+                    <option value="5">Frozen Foods</option>
+                    <option value="6">Fruits and Vegetables</option>
+                    <option value="7">Hard Drinks</option>
+                    <option value="8">Health and Hygiene</option>
+                    <option value="9">Household</option>
+                    <option value="10">Meat</option>
+                    <option value="11">Others</option>
+                    <option value="12">Seafood</option>
+                    <option value="13">Snack Foods</option>
+                    <option value="14">Soft Drinks</option>
+                    <option value="15">Starchy Foods</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="item_mrp">Item MRP</label>
+                <input type="number" step="any" id="item_mrp" name="item_mrp" required min="0" placeholder="Maximum Retail Price">
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_establishment_year">Outlet Establishment Year</label>
+                <input type="number" id="outlet_establishment_year" name="outlet_establishment_year" required placeholder="e.g. 1999" min="1900" max="2030">
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_size">Outlet Size</label>
+                <select id="outlet_size" name="outlet_size" required>
+                    <option value="" disabled selected>Select size</option>
+                    <option value="0">High</option>
+                    <option value="1">Medium</option>
+                    <option value="2">Small</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_location_type">Outlet Location Type</label>
+                <select id="outlet_location_type" name="outlet_location_type" required>
+                    <option value="" disabled selected>Select location tier</option>
+                    <option value="0">Tier 1</option>
+                    <option value="1">Tier 2</option>
+                    <option value="2">Tier 3</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="outlet_type">Outlet Type</label>
+                <select id="outlet_type" name="outlet_type" required>
+                    <option value="" disabled selected>Select outlet type</option>
+                    <option value="0">Grocery Store</option>
+                    <option value="1">Supermarket Type1</option>
+                    <option value="2">Supermarket Type2</option>
+                    <option value="3">Supermarket Type3</option>
+                </select>
+            </div>
+
+            <button type="submit" id="submitBtn">Predict Sales</button>
+        </form>
+    </main>
+</body>
+</html>
