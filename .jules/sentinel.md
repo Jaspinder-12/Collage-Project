@@ -1,0 +1,4 @@
+## 2024-04-04 - Preventing Stack Trace Leakage
+**Vulnerability:** The application had `debug=True` enabled in `app.run()` and lacked input validation/error handling in the `/predict` route, which could expose internal stack traces to users.
+**Learning:** Hardcoded `debug=True` and unhandled exceptions (like `KeyError`, `ValueError`, `TypeError` during form processing) can easily leak sensitive internal details to potential attackers.
+**Prevention:** Always set `debug=False` in production and use a global or route-specific `try-except` block to return generic error messages (e.g., 400 Bad Request) instead of internal error details.
