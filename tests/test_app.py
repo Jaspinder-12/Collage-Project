@@ -1,9 +1,14 @@
 import sys
 from unittest.mock import MagicMock
 
+import os
+
 # Mock dependencies before import to prevent ModuleNotFoundError
 sys.modules["joblib"] = MagicMock()
 sys.modules["numpy"] = MagicMock()
+
+base = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, base)
 
 import app  # noqa: E402
 
