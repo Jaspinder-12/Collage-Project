@@ -1,0 +1,3 @@
+## 2024-05-24 - Lazy-loading Scikit-Learn Models
+**Learning:** Deserialization of scikit-learn machine learning models via `joblib.load()` is a heavy, synchronous I/O operation that blocks the request thread. To prevent significant per-request latency, these models must be lazy-loaded and cached globally rather than loaded sequentially on every request.
+**Action:** Implemented a global `model_cache` dictionary to lazy-load the `sc.sav` and `lr.sav` models inside the `/predict` route. This ensures the models are only loaded once upon the first request and subsequent requests fetch the model from memory.
