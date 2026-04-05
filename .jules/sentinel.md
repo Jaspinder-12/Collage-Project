@@ -1,0 +1,4 @@
+## 2026-04-05 - [Disabled Debug Mode & Handled Exceptions in Flask App]
+**Vulnerability:** The Flask application had `debug=True` enabled in production, which can expose sensitive stack traces on unhandled exceptions (e.g., when inputs are malformed). The `/predict` endpoint did not catch parsing errors like `KeyError`, `ValueError`, and `TypeError`.
+**Learning:** Having `debug=True` in production and missing error handlers can leak sensitive internals and lead to potential RCE (Remote Code Execution) via Werkzeug debugger if exploited.
+**Prevention:** Ensure `debug=False` for production deployments and always validate or try-catch inputs to return secure, generic HTTP error responses (e.g., 400 Bad Request) without exposing underlying exception details.
