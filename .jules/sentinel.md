@@ -1,0 +1,4 @@
+## 2024-05-14 - Fix exposed stack traces and sensitive info leakage
+**Vulnerability:** Flask development server was running with `debug=True`, which exposes full server environment variables and stack traces to users. Additionally, unsanitized and unchecked input parsing of `request.form` using `float()` would lead to unhandled `ValueError` or `KeyError` exceptions on invalid input, which due to `debug=True` leaks stack traces.
+**Learning:** `debug=True` is extremely dangerous in any public environment as it leads directly to information disclosure and even RCE in certain conditions (via Werkzeug debugger PIN vulnerabilities if left accessible).
+**Prevention:** Never use `debug=True` in a production-facing context. Always validate user inputs rigorously, wrap input parsing in safe `try/except` blocks, and return generic HTTP error responses (like 400 Bad Request) instead of relying on the application failing loudly.
