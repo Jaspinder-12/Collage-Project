@@ -1,0 +1,3 @@
+## 2025-04-06 - Deserialization Bottleneck in Flask Routes
+**Learning:** Sequential deserialization of scikit-learn models using `joblib.load()` on each request inside a Flask route is a major blocking I/O bottleneck. This significantly increases latency for every `/predict` call, as the machine learning models are loaded from disk synchronously each time rather than being reused.
+**Action:** Always lazy-load heavy machine learning models globally or implement a module-level dictionary (e.g., `model_cache`) to cache models upon first request to prevent per-request I/O blocking. Ensure state is reset gracefully during tests to avoid cross-test pollution.
