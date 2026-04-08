@@ -1,0 +1,3 @@
+## 2024-04-08 - Caching ML Models in Flask
+**Learning:** Deserialization of scikit-learn machine learning models via `joblib.load()` is a heavy, synchronous I/O operation that blocks the request thread. Loading models sequentially on every request causes significant per-request latency. Scikit-learn models are stateless during inference, meaning a single instance can be safely shared across concurrent requests without thread-safety issues.
+**Action:** Always lazy-load ML models in Flask routes using a global caching mechanism (e.g., `model_cache = {}`) rather than repeatedly loading them from disk on every request. Avoid using the `global` keyword for purely read operations to prevent linting errors.
