@@ -1,0 +1,3 @@
+## 2026-03-23 - Improve form context using aria-describedby
+**Learning:** For categorical text/number inputs without dropdowns, screen readers need extra context about valid input values. While visible helper text below the field is good for sighted users, it must be explicitly associated with the input field for screen reader users using the `aria-describedby` attribute pointing to the helper text's `id`.
+**Action:** When adding helper text below an input (e.g. valid encoding options for categories), always link it back to the input element via `aria-describedby="[helper-id]"` to ensure the extra context is announced when the field receives focus.
