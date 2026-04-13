@@ -5,6 +5,15 @@ import numpy as np
 
 app = Flask(__name__)
 
+# ⚡ Bolt: Performance optimization - lazy load ML models
+model_cache = {}
+
+def get_model(model_name):
+    if model_name not in model_cache:
+        model_path = os.path.join(os.path.dirname(__file__), 'models', f'{model_name}.sav')
+        model_cache[model_name] = joblib.load(model_path)
+    return model_cache[model_name]
+
 
 @app.route("/")
 def index():
@@ -26,19 +35,13 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
+    sc = get_model('sc')
     X_std= sc.transform(X)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
-
+    model = get_model('lr')
     Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction=float(Y_pred[0] if isinstance(Y_pred, (list, np.ndarray)) else Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    app.run(port=9457)
