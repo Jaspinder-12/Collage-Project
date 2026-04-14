@@ -1,0 +1,4 @@
+## 2024-04-14 - Fix Stack Trace Leakage and Unhandled Exceptions
+**Vulnerability:** The Flask app had `debug=True` enabled in production (listening on port 9457 without conditional logic). Also, the `/predict` route lacked input validation, which could crash the server and leak stack traces back to the user upon exceptions like `ValueError` or `KeyError`.
+**Learning:** `debug=True` in production can leak sensitive internal information (stack traces, paths) via the interactive Werkzeug debugger. Missing input validation exacerbates this.
+**Prevention:** Ensure `debug=False` for production deployments. Always add robust input validation and error handling (e.g. `try...except`) to return generic 400 Bad Request messages instead of 500 internal server error pages with stack traces.
