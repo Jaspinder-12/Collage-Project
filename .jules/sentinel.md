@@ -1,0 +1,4 @@
+## 2024-04-15 - Missing Input Validation in Flask Route
+**Vulnerability:** The `/predict` endpoint directly accessed `request.form` dictionary keys and casted them to floats without any exception handling. This meant that if a client omitted a field or submitted non-numeric data, it would raise a `KeyError` or `ValueError` resulting in a 500 Internal Server Error and potentially leaking stack traces to the client.
+**Learning:** Flask routes expecting form data must validate or handle potential parsing errors defensively, rather than assuming the client will always send the expected payload.
+**Prevention:** Wrap form data extraction and type conversion in `try/except` blocks (catching `KeyError`, `ValueError`, `TypeError`) and return a sanitized 400 Bad Request response on failure, preventing unhandled exceptions and information leakage.
