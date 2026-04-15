@@ -1,0 +1,5 @@
+## 2024-05-18 - Lazy Loading ML Models in Flask Routes
+
+**Learning:** When loading heavy ML models (like scikit-learn models via `joblib.load()`) in a Flask application, placing the loading logic directly inside the route causes a massive synchronous I/O bottleneck, as the heavy model is loaded from disk on every single request. While moving the load to the global module scope fixes the per-request latency, it can cause immediate crashes or testing difficulties if the models are missing or if mocking is required. Furthermore, using the `global` keyword inside the route to lazy-load variables can lead to `flake8` `F824` errors.
+
+**Action:** Use a module-level dictionary (`model_cache = {}`) to implement lazy loading. Inside the route, check if the model is in the cache (e.g., `if 'model' not in model_cache: model_cache['model'] = joblib.load(...)`). This prevents scope issues with `flake8`, avoids module-level initialization failures when testing or when models are absent, and completely eliminates the synchronous disk I/O bottleneck on subsequent requests.
