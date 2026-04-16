@@ -1,0 +1,4 @@
+## 2024-04-16 - Flask Input Validation and Debug Exposure Fix
+**Vulnerability:** The application was directly casting `request.form` dictionary values to floats without try/catch handling, leading to a 500 error unhandled exception if fields were missing or typed improperly. The Flask app was also started with `debug=True`, exposing the interactive Werkzeug debugger.
+**Learning:** Even internal or non-public fields parsed from a request form should have robust exception handling in Python (e.g., catching KeyError and ValueError) to prevent server crashing and potential error message information leakage.
+**Prevention:** Always wrap request data extraction and type conversion in `try...except` blocks and return a sanitized 400 Bad Request error. Never run a Flask app with `debug=True` in production or default code configurations.
