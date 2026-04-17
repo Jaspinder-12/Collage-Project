@@ -1,0 +1,3 @@
+## 2024-04-16 - Lazy loading machine learning models in Flask
+**Learning:** The application was loading heavy machine learning models (`joblib.load`) synchronously inside the `/predict` route handler, causing massive performance bottlenecks and blocking the main thread for every incoming request.
+**Action:** Always extract static model loading logic into a module-level dictionary (e.g., `model_cache = {}`) to lazily load and cache the models in memory upon the first request. This converts O(N) disk read operations into O(1) memory accesses across subsequent requests, significantly boosting performance without triggering `flake8` global variable scope errors.
