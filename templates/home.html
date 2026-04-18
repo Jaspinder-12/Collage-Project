@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>BigMart Sales Prediction</h2>
+<div aria-live="polite" id="a11y-announcer" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;"></div>
+<form action="/predict" method="post" onsubmit="document.getElementById('a11y-announcer').textContent='Predicting...'; document.getElementById('submitBtn').value='Predicting...'; document.getElementById('submitBtn').disabled=true;">
+  Item Weight: <input type="number" step="any" required name="item_weight" value="9.3"><br>
+  Item Fat Content: <input type="number" step="any" required name="item_fat_content" value="0"><br>
+  Item Visibility: <input type="number" step="any" required name="item_visibility" value="0.016"><br>
+  Item Type: <input type="number" step="any" required name="item_type" value="4"><br>
+  Item MRP: <input type="number" step="any" required name="item_mrp" value="249.8"><br>
+  Outlet Establishment Year: <input type="number" step="any" required name="outlet_establishment_year" value="1999"><br>
+  Outlet Size: <input type="number" step="any" required name="outlet_size" value="1"><br>
+  Outlet Location Type: <input type="number" step="any" required name="outlet_location_type" value="0"><br>
+  Outlet Type: <input type="number" step="any" required name="outlet_type" value="1"><br>
+  <input type="submit" id="submitBtn" value="Predict">
+</form>
+</body>
+</html>
