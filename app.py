@@ -5,6 +5,8 @@ import numpy as np
 
 app = Flask(__name__)
 
+model_cache = {}
+
 
 @app.route("/")
 def index():
@@ -26,19 +28,23 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    # ⚡ Bolt: Performance optimization - Lazy load models using relative paths and cache them
+    if 'sc' not in model_cache:
+        scaler_path = os.path.join(os.path.dirname(__file__), 'models/sc.sav')
+        model_cache['sc'] = joblib.load(scaler_path)
 
-    sc=joblib.load(scaler_path)
-
+    sc = model_cache['sc']
     X_std= sc.transform(X)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+    if 'lr' not in model_cache:
+        model_path = os.path.join(os.path.dirname(__file__), 'models/lr.sav')
+        model_cache['lr'] = joblib.load(model_path)
 
-    model= joblib.load(model_path)
+    model = model_cache['lr']
 
     Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction=float(Y_pred[0]))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    app.run(debug=False, port=9457)
