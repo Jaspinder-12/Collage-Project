@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigMart Sales Prediction</title>
+</head>
+<body>
+<main>
+    <h2>BigMart Sales Prediction</h2>
+    <form action="/predict" method="post">
+        <fieldset>
+            <legend>Item Details</legend>
+            <label for="item_weight">Item Weight:</label>
+            <input type="text" id="item_weight" name="item_weight" value="9.3" required><br>
+
+            <label for="item_fat_content">Item Fat Content:</label>
+            <input type="text" id="item_fat_content" name="item_fat_content" value="0" required><br>
+
+            <label for="item_visibility">Item Visibility:</label>
+            <input type="text" id="item_visibility" name="item_visibility" value="0.016" required><br>
+
+            <label for="item_type">Item Type:</label>
+            <input type="text" id="item_type" name="item_type" value="4" required><br>
+
+            <label for="item_mrp">Item MRP:</label>
+            <input type="text" id="item_mrp" name="item_mrp" value="249.8" required><br>
+        </fieldset>
+
+        <fieldset>
+            <legend>Outlet Details</legend>
+            <label for="outlet_establishment_year">Outlet Establishment Year:</label>
+            <input type="text" id="outlet_establishment_year" name="outlet_establishment_year" value="1999" required><br>
+
+            <label for="outlet_size">Outlet Size:</label>
+            <input type="text" id="outlet_size" name="outlet_size" value="1" required><br>
+
+            <label for="outlet_location_type">Outlet Location Type:</label>
+            <input type="text" id="outlet_location_type" name="outlet_location_type" value="0" required><br>
+
+            <label for="outlet_type">Outlet Type:</label>
+            <input type="text" id="outlet_type" name="outlet_type" value="1" required><br>
+        </fieldset>
+
+        <input type="submit" value="Predict">
+    </form>
+</main>
+</body>
+</html>
