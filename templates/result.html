@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    <p>Predicted Sales: $<span id="prediction-value">{{ prediction }}</span></p>
+    <a href="/">Return to Prediction Form</a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const valueSpan = document.getElementById('prediction-value');
+            if (valueSpan) {
+                const rawValue = parseFloat(valueSpan.textContent);
+                if (!isNaN(rawValue)) {
+                    valueSpan.textContent = rawValue.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
