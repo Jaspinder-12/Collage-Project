@@ -23,6 +23,7 @@ def client():
 
 def test_predict_route(client, mocker):
     mock_load = mocker.patch("joblib.load", side_effect=lambda path: MockScaler() if "sc.sav" in path else MockModel())
+    mocker.patch("app.render_template", return_value="Success")
 
     response = client.post(
         "/predict",
