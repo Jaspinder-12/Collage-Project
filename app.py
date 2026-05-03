@@ -40,6 +40,8 @@ def result():
         ]
     )
 
+    # ⚡ Bolt: Cache models in memory to avoid expensive disk I/O and deserialization on every request
+    # Impact: Reduces latency significantly for subsequent /predict calls
     if "sc" not in model_cache or "model" not in model_cache:
         scaler_path = (
             r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
