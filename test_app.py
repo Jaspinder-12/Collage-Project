@@ -12,9 +12,12 @@ class MockScaler:
         return X
 
 
-def test_predict_caching(mocker):
-    mocker.patch("app.joblib.load", side_effect=[MockScaler(), MockModel()])
-    mocker.patch("app.render_template", return_value="Result")
+from unittest.mock import patch  # noqa: E402
+
+
+@patch("app.joblib.load", side_effect=[MockScaler(), MockModel()])
+@patch("app.render_template", return_value="Result")
+def test_predict_caching(mock_render_template, mock_load):
 
     import app
 
