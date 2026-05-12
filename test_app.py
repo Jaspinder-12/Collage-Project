@@ -19,12 +19,12 @@ def client():
         yield client
 
 
-def test_predict_invalid_input(client, mocker):
-    mocker.patch("app.render_template")
-    # Sending missing/invalid form data
-    response = client.post("/predict", data={"item_weight": "invalid"})
-    assert response.status_code == 400
-    assert b"Invalid input data" in response.data
+def test_predict_invalid_input(client):
+    with unittest.mock.patch("app.render_template"):
+        # Sending missing/invalid form data
+        response = client.post("/predict", data={"item_weight": "invalid"})
+        assert response.status_code == 400
+        assert b"Invalid input data" in response.data
 
 
 def test_debug_mode_disabled():
