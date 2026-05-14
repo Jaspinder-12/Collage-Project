@@ -15,14 +15,19 @@ def client():
         yield client
 
 
-def test_predict_route(client, mocker):
-    mocker.patch("app.render_template", return_value="Mocked Template")
-    mock_sc = mocker.MagicMock()
+from unittest.mock import patch, MagicMock
+
+
+@patch("joblib.load")
+@patch("app.render_template")
+def test_predict_route(mock_render_template, mock_load, client):
+    mock_render_template.return_value = "Mocked Template"
+    mock_sc = MagicMock()
     mock_sc.transform.return_value = np.array([[1.0]])
-    mock_model = mocker.MagicMock()
+    mock_model = MagicMock()
     mock_model.predict.return_value = np.array([42.5])
 
-    mock_load = mocker.patch("joblib.load", side_effect=[mock_sc, mock_model])
+    mock_load.side_effect = [mock_sc, mock_model]
 
     data = {
         "item_weight": "10.5",
