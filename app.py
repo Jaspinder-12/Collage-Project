@@ -5,40 +5,64 @@ import numpy as np
 
 app = Flask(__name__)
 
+cache = {}
+
 
 @app.route("/")
 def index():
     return render_template("home.html")
 
-@app.route('/predict',methods=['POST','GET'])
+
+@app.route("/predict", methods=["POST", "GET"])
 def result():
 
-    item_weight= float(request.form['item_weight'])
-    item_fat_content=float(request.form['item_fat_content'])
-    item_visibility= float(request.form['item_visibility'])
-    item_type= float(request.form['item_type'])
-    item_mrp = float(request.form['item_mrp'])
-    outlet_establishment_year= float(request.form['outlet_establishment_year'])
-    outlet_size= float(request.form['outlet_size'])
-    outlet_location_type= float(request.form['outlet_location_type'])
-    outlet_type= float(request.form['outlet_type'])
+    item_weight = float(request.form["item_weight"])
+    item_fat_content = float(request.form["item_fat_content"])
+    item_visibility = float(request.form["item_visibility"])
+    item_type = float(request.form["item_type"])
+    item_mrp = float(request.form["item_mrp"])
+    outlet_establishment_year = float(request.form["outlet_establishment_year"])
+    outlet_size = float(request.form["outlet_size"])
+    outlet_location_type = float(request.form["outlet_location_type"])
+    outlet_type = float(request.form["outlet_type"])
 
-    X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
-                  outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
+    X = np.array(
+        [
+            [
+                item_weight,
+                item_fat_content,
+                item_visibility,
+                item_type,
+                item_mrp,
+                outlet_establishment_year,
+                outlet_size,
+                outlet_location_type,
+                outlet_type,
+            ]
+        ]
+    )
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    if "sc" not in cache or "model" not in cache:
+        # ⚡ Bolt: Performance Optimization - Load model and scaler only once and cache them in memory
+        scaler_path = (
+            r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+        )
+        cache["sc"] = joblib.load(scaler_path)
 
-    sc=joblib.load(scaler_path)
+        model_path = (
+            r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+        )
+        cache["model"] = joblib.load(model_path)
 
-    X_std= sc.transform(X)
+    sc = cache["sc"]
+    model = cache["model"]
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+    X_std = sc.transform(X)
 
-    model= joblib.load(model_path)
+    Y_pred = model.predict(X_std)
 
-    Y_pred=model.predict(X_std)
+    return render_template("result.html", prediction=float(Y_pred[0]))
 
-    return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    app.run(debug=False, port=9457)
