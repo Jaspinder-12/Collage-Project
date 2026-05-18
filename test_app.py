@@ -14,7 +14,7 @@ def client():
         yield client
 
 
-def test_predict_invalid_input(client, mocker):
+def test_predict_invalid_input(client):
     response = client.post(
         "/predict",
         data={
