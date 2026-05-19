@@ -1,0 +1,4 @@
+## 2024-05-19 - Flask Debug Mode and Missing Input Validation
+**Vulnerability:** Flask application was running with `debug=True` in production and lacked input validation on the `/predict` route, leading to potential Remote Code Execution (RCE) via the Werkzeug debugger and stack trace leakage via unhandled exceptions.
+**Learning:** Direct type casting of user input without try-except blocks causes 500 internal server errors, which, combined with `debug=True`, exposes internal application state and allows arbitrary code execution.
+**Prevention:** Always set `debug=False` in `app.run()`. Encapsulate user input extraction and type casting in `try...except` blocks and return a safe HTTP 400 Bad Request response.
