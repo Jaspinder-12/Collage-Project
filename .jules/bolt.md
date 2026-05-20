@@ -1,0 +1,3 @@
+## 2024-05-20 - Global Model Caching in Flask
+**Learning:** Loading scikit-learn models from disk (`joblib.load`) inside a Flask request handler causes severe performance degradation due to repetitive I/O and deserialization.
+**Action:** Always cache machine learning models globally in memory at application startup so they can be reused across all incoming requests. When hardcoded, machine-specific paths are present, wrap the load logic in a `try...except` block to prevent startup crashes in different environments.
