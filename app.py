@@ -11,14 +11,14 @@ def index():
     return render_template("home.html")
 
 # ⚡ Bolt: Globally cache models in memory to avoid severe performance degradation from repetitive disk I/O and deserialization
-scaler_path = r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-model_path = r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-try:
-    sc = joblib.load(scaler_path)
-    model = joblib.load(model_path)
-except Exception:
-    sc = None
-    model = None
+# ⚡ Bolt: Use relative paths so the application can load models regardless of the environment (e.g. CI)
+base_dir = os.path.dirname(os.path.abspath(__file__))
+scaler_path = os.path.join(base_dir, "models", "sc.sav")
+model_path = os.path.join(base_dir, "models", "lr.sav")
+
+# Let exceptions propagate to fail loudly if critical ML models are missing
+sc = joblib.load(scaler_path)
+model = joblib.load(model_path)
 
 
 @app.route('/predict',methods=['POST','GET'])
@@ -37,13 +37,10 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    if sc is not None and model is not None:
-        X_std = sc.transform(X)
-        Y_pred = model.predict(X_std)
-        # ⚡ Bolt: Explicitly index the first element of the prediction array to prevent DeprecationWarnings
-        prediction = float(Y_pred[0])
-    else:
-        prediction = 0.0
+    X_std = sc.transform(X)
+    Y_pred = model.predict(X_std)
+    # ⚡ Bolt: Explicitly index the first element of the prediction array to prevent DeprecationWarnings
+    prediction = float(Y_pred[0])
 
     return render_template("result.html", prediction=prediction)
 
