@@ -1,0 +1,3 @@
+## 2024-05-18 - Globally caching machine learning models
+**Learning:** Loading large machine learning models using `joblib.load` directly inside a Flask request handler causes severe performance degradation due to repetitive disk I/O and deserialization.
+**Action:** Always load and cache these models in the global scope of the application so they are deserialized only once on startup. Additionally, wrap the loading logic in `try...except` blocks if relying on hardcoded, machine-specific paths to prevent the app from crashing in environments where they don't exist.
