@@ -10,6 +10,18 @@ app = Flask(__name__)
 def index():
     return render_template("home.html")
 
+# ⚡ Bolt: Caching models globally to prevent repeated disk I/O on every request
+SCALER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'sc.sav')
+MODEL_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'lr.sav')
+
+try:
+    sc = joblib.load(SCALER_PATH)
+    model = joblib.load(MODEL_PATH)
+except FileNotFoundError:
+    # Just to handle CI test execution without models
+    sc = None
+    model = None
+
 @app.route('/predict',methods=['POST','GET'])
 def result():
 
@@ -26,19 +38,11 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
     return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    app.run(debug=False, port=9457)
