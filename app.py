@@ -41,4 +41,5 @@ def result():
     return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    # 🛡️ Sentinel: Disabled debug mode to prevent Remote Code Execution (RCE) and sensitive data leakage via the Werkzeug debugger.
+    app.run(debug=False, port=9457)
