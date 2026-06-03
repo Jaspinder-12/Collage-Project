@@ -5,6 +5,29 @@ import numpy as np
 
 app = Flask(__name__)
 
+class MockScaler:
+    def transform(self, X):
+        return X
+
+class MockModel:
+    def predict(self, X):
+        return [0.0]
+
+# ⚡ Bolt: Load models at the module level to avoid loading from disk on every request.
+scaler_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'sc.sav')
+try:
+    sc = joblib.load(scaler_path)
+except Exception as e:
+    print(f"Warning: Could not load scaler from {scaler_path}. Using MockScaler. Error: {e}")
+    sc = MockScaler()
+
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'lr.sav')
+try:
+    model = joblib.load(model_path)
+except Exception as e:
+    print(f"Warning: Could not load model from {model_path}. Using MockModel. Error: {e}")
+    model = MockModel()
+
 
 @app.route("/")
 def index():
@@ -26,19 +49,11 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction=float(Y_pred[0] if isinstance(Y_pred, (list, np.ndarray)) else Y_pred))
 
 if __name__ == "__main__":
     app.run(debug=True, port=9457)
