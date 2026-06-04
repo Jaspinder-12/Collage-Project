@@ -32,13 +32,18 @@ def result():
 
     X_std= sc.transform(X)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+    try:
+        model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
 
-    model= joblib.load(model_path)
+        model= joblib.load(model_path)
 
-    Y_pred=model.predict(X_std)
+        Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+        return render_template("result.html", prediction=float(Y_pred))
+    except Exception:
+        # 🛡️ Sentinel: Generic error handling to prevent stack trace leakage
+        return jsonify({"error": "An error occurred during prediction"}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    # 🛡️ Sentinel: Disabled debug mode to prevent RCE and stack trace exposure
+    app.run(debug=False, port=9457)
