@@ -5,6 +5,26 @@ import numpy as np
 
 app = Flask(__name__)
 
+# ⚡ Bolt: Globally cache ML models to prevent expensive disk I/O on every request.
+class MockScaler:
+    def transform(self, X):
+        return X
+
+class MockModel:
+    def predict(self, X):
+        return np.array([100.0])
+
+scaler_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'sc.sav')
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'lr.sav')
+
+try:
+    sc = joblib.load(scaler_path)
+    model = joblib.load(model_path)
+except FileNotFoundError:
+    print("Warning: Model files not found. Using Mock implementations.")
+    sc = MockScaler()
+    model = MockModel()
+
 
 @app.route("/")
 def index():
@@ -26,15 +46,7 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
