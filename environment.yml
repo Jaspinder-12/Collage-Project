@@ -1,0 +1,6 @@
+name: bigmart
+dependencies:
+  - python=3.10
+  - flask
+  - joblib
+  - numpy
