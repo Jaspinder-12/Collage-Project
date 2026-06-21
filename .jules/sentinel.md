@@ -1,0 +1,4 @@
+## 2024-06-21 - Flask Debug Mode & Unhandled Input Exceptions
+**Vulnerability:** The Flask application was running with `debug=True` in production, which exposes the Werkzeug interactive debugger and internal stack traces. Additionally, direct user input from `request.form` was cast to `float` without validation, leading to potential 500 Internal Server Errors and further stack trace exposure on `ValueError` or `KeyError`.
+**Learning:** Hardcoding `debug=True` is a severe risk in public-facing applications. Furthermore, assuming user input is always present and correctly typed can lead to unhandled exceptions that expose application internals.
+**Prevention:** Always set `debug=False` or omit the parameter in production environments. Wrap all direct type casting of user inputs in `try...except` blocks and return appropriate 4XX HTTP status codes for invalid input to handle errors gracefully without leaking sensitive information.
