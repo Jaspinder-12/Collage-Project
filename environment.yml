@@ -1,0 +1,14 @@
+name: bigmart-env
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - flask
+  - joblib
+  - numpy
+  - scikit-learn
+  - pip
+  - pip:
+    - pytest
+    - flake8
