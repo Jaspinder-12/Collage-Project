@@ -13,15 +13,22 @@ def index():
 @app.route('/predict',methods=['POST','GET'])
 def result():
 
-    item_weight= float(request.form['item_weight'])
-    item_fat_content=float(request.form['item_fat_content'])
-    item_visibility= float(request.form['item_visibility'])
-    item_type= float(request.form['item_type'])
-    item_mrp = float(request.form['item_mrp'])
-    outlet_establishment_year= float(request.form['outlet_establishment_year'])
-    outlet_size= float(request.form['outlet_size'])
-    outlet_location_type= float(request.form['outlet_location_type'])
-    outlet_type= float(request.form['outlet_type'])
+    # 🛡️ Sentinel: Wrap input parsing in try-except to prevent unhandled exceptions and 500 errors
+    try:
+        item_weight= float(request.form['item_weight'])
+        item_fat_content=float(request.form['item_fat_content'])
+        item_visibility= float(request.form['item_visibility'])
+        item_type= float(request.form['item_type'])
+        item_mrp = float(request.form['item_mrp'])
+        outlet_establishment_year= float(request.form['outlet_establishment_year'])
+        outlet_size= float(request.form['outlet_size'])
+        outlet_location_type= float(request.form['outlet_location_type'])
+        outlet_type= float(request.form['outlet_type'])
+    except (ValueError, KeyError):
+        return "Invalid input data. Please provide valid numbers for all fields.", 400
+    except Exception:
+        # 🛡️ Sentinel: Catch generic exceptions to return a 500 without leaking stack traces
+        return "An internal error occurred.", 500
 
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
@@ -41,4 +48,5 @@ def result():
     return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    # 🛡️ Sentinel: Disable debug mode to prevent exposing Werkzeug debugger and stack traces
+    app.run(debug=False, port=9457)
