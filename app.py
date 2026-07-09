@@ -5,6 +5,13 @@ import numpy as np
 
 app = Flask(__name__)
 
+# ⚡ Bolt: Cache machine learning models globally at startup to prevent synchronous disk I/O and deserialization during every request
+scaler_path = os.path.join(os.path.dirname(__file__), 'models', 'sc.sav')
+sc = joblib.load(scaler_path)
+
+model_path = os.path.join(os.path.dirname(__file__), 'models', 'lr.sav')
+model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
@@ -26,15 +33,8 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
+    # ⚡ Bolt: Using globally cached models instead of loading from disk on every request to improve response latency
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
