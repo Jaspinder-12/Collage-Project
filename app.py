@@ -5,6 +5,13 @@ import numpy as np
 
 app = Flask(__name__)
 
+# ⚡ Bolt: Cached models globally to prevent expensive disk I/O and deserialization per request
+scaler_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'sc.sav')
+sc = joblib.load(scaler_path)
+
+model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'models', 'lr.sav')
+model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
@@ -26,19 +33,11 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction=float(Y_pred[0]))
 
 if __name__ == "__main__":
     app.run(debug=True, port=9457)
