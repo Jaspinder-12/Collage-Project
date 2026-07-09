@@ -1,0 +1,10 @@
+name: bigmart
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - flask
+  - joblib
+  - numpy
+  - pytest
+  - flake8
