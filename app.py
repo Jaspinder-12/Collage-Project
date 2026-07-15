@@ -1,9 +1,15 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, render_template, request
 import joblib
-import os
 import numpy as np
 
 app = Flask(__name__)
+
+# ⚡ Bolt: Cache models globally at startup to prevent synchronous disk I/O and deserialization from degrading response latency on every prediction request.
+scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+sc=joblib.load(scaler_path)
+
+model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+model= joblib.load(model_path)
 
 
 @app.route("/")
@@ -26,19 +32,11 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
     return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    app.run(debug=False, port=9457)
