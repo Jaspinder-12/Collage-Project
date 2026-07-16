@@ -1,0 +1,4 @@
+## 2024-05-18 - Prevent Unhandled Form Exceptions and Disable Debug Mode
+**Vulnerability:** The Flask app enabled debug mode in production (which allows arbitrary code execution via Werkzeug) and had unhandled form inputs in the `/predict` route (leading to 500 errors and leaking internal stack traces when values were missing or invalid).
+**Learning:** Developers frequently hardcode `debug=True` during early development and forget to remove it, and they often assume users will only submit valid form data via perfectly functioning frontends, ignoring direct POST requests or manipulation.
+**Prevention:** Always ensure `app.run(debug=True)` is changed to `debug=False` or omitted before finalizing the app, and wrap all `request.form` extractions and type-castings in `try...except (ValueError, KeyError)` blocks to gracefully render HTML error messages.
