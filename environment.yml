@@ -1,0 +1,13 @@
+name: collage-env
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - flask
+  - joblib
+  - numpy
+  - scikit-learn
+  - pip
+  - pip:
+      - pytest
+      - flake8
