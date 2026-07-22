@@ -5,6 +5,15 @@ import numpy as np
 
 app = Flask(__name__)
 
+# ⚡ Bolt: Cache ML models globally to prevent expensive synchronous disk I/O and deserialization on every request
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+scaler_path = os.path.join(BASE_DIR, "models", "sc.sav")
+model_path = os.path.join(BASE_DIR, "models", "lr.sav")
+
+# ⚡ Bolt: Allow FileNotFoundError to fail loudly if models are missing, ensuring state consistency on startup
+sc = joblib.load(scaler_path)
+model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
@@ -23,18 +32,13 @@ def result():
     outlet_location_type= float(request.form['outlet_location_type'])
     outlet_type= float(request.form['outlet_type'])
 
-    X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
-                  outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
-
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
+    try:
+        X = np.array([[float(item_weight), float(item_fat_content), float(item_visibility), float(item_type), float(item_mrp),
+                      float(outlet_establishment_year), float(outlet_size), float(outlet_location_type), float(outlet_type)]])
+    except ValueError:
+        return render_template("home.html")
 
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
