@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #1f2937;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 {
+            color: #111827;
+            margin-bottom: 1rem;
+        }
+        .result {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #059669;
+            margin: 1.5rem 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            text-decoration: none;
+            color: #2563eb;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Predicted Sales</h1>
+        <p>The estimated sales for this item are:</p>
+        <div class="result">
+            <span id="prediction-value" style="display: none;">{{ prediction }}</span>
+            <span id="formatted-prediction"></span>
+        </div>
+        <a href="/" class="back-link">← Predict Another Item</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rawValue = parseFloat(document.getElementById('prediction-value').textContent);
+            if (!isNaN(rawValue)) {
+                document.getElementById('formatted-prediction').textContent = rawValue.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            } else {
+                document.getElementById('formatted-prediction').textContent = document.getElementById('prediction-value').textContent;
+            }
+        });
+    </script>
+</body>
+</html>
