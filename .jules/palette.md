@@ -1,0 +1,3 @@
+## 2024-04-11 - Use native number inputs with constraints for encoded variables
+**Learning:** Using `type="text"` for categorical variables that the backend casts to float (e.g., `item_type` code 0-15) opens up the app to strings/letters, causing backend 500 errors (ValueError during float casting) while failing to trigger the numeric keypad on mobile devices, which hurts the user experience.
+**Action:** Always use `type="number"` for numeric/categorical entries to automatically trigger mobile numeric keypads and prevent alphabetic input. Use HTML5 `min` and `max` attributes (e.g., `min="0" max="15"`) to gently guide users and prevent out-of-range inputs before submission without custom JS or CSS.

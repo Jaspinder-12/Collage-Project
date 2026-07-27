@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 0 1rem; text-align: center; }
+        .result { font-size: 2rem; color: #28a745; margin: 2rem 0; font-weight: bold; }
+        a { text-decoration: none; color: #007bff; font-weight: bold; outline: none; transition: box-shadow 0.2s; border-radius: 2px; }
+        a:hover { text-decoration: underline; }
+        a:focus-visible { box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); }
+    </style>
+</head>
+<body>
+    <h1>Prediction Result</h1>
+    <div class="result">
+        Predicted Item Outlet Sales: {{ "{:.2f}".format(prediction) }}
+    </div>
+    <a href="/">Make another prediction</a>
+</body>
+</html>
