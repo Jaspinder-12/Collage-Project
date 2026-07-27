@@ -1,0 +1,3 @@
+## 2026-02-25 - Prevent ML Model Lazy Loading I/O Blocking
+**Learning:** Deserialization of scikit-learn machine learning models via `joblib.load()` is a heavy, synchronous I/O operation that blocks the request thread. If placed inside a Flask route, it severely impacts per-request latency.
+**Action:** Always lazy-load and cache machine learning models in a module-level dictionary globally instead of sequential loading on every request, ensuring state is shared efficiently across threads without `ModuleNotFoundError` scope issues.
