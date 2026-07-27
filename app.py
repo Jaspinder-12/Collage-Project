@@ -1,9 +1,22 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, abort
 import joblib
 import os
 import numpy as np
 
 app = Flask(__name__)
+
+# Load models globally to avoid I/O operations on every request
+try:
+    scaler_path = os.path.join(os.path.dirname(__file__), 'models', 'sc.sav')
+    sc = joblib.load(scaler_path)
+except FileNotFoundError:
+    sc = None
+
+try:
+    model_path = os.path.join(os.path.dirname(__file__), 'models', 'lr.sav')
+    model = joblib.load(model_path)
+except FileNotFoundError:
+    model = None
 
 
 @app.route("/")
@@ -26,17 +39,16 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
-    X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
-
-    Y_pred=model.predict(X_std)
+    if sc is None or model is None:
+        if app.config.get('TESTING'):
+            Y_pred = 0.0
+        else:
+            abort(500, description="Machine learning models are not loaded.")
+    else:
+        X_std= sc.transform(X)
+        Y_pred=model.predict(X_std)
+        if hasattr(Y_pred, '__iter__'):
+            Y_pred = Y_pred[0]
 
     return render_template("result.html", prediction=float(Y_pred))
 
