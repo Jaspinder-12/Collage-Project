@@ -1,0 +1,4 @@
+## 2024-05-24 - [Flask App Debug Mode and Unhandled Input Values]
+**Vulnerability:** The application was running with `debug=True` and no `try...except` handling on extracting data from `request.form`.
+**Learning:** Running Flask with `debug=True` exposes an interactive debugger in the browser if an unhandled exception occurs (such as a ValueError or KeyError from form parsing). In this state, an attacker can input invalid form data to trigger an exception and exploit the Werkzeug debugger to execute arbitrary code (RCE) on the server, or at minimum leak sensitive source code/environment variables.
+**Prevention:** Ensure `debug=False` for all deployed applications. Always wrap potentially failing operations (like casting user input from forms) in appropriate `try...except` blocks and return secure, standardized JSON error messages (`400 Bad Request`) instead of throwing a `500 Internal Server Error`.
