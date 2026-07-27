@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigMart Sales Prediction</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] {
+            width: 100%; padding: 8px; box-sizing: border-box;
+            border: 1px solid #ccc; border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px; background-color: #007bff; color: white;
+            border: none; border-radius: 4px; cursor: pointer;
+        }
+        button:hover:not(:disabled) { background-color: #0056b3; }
+        button:disabled { cursor: not-allowed; opacity: 0.7; }
+    </style>
+</head>
+<body>
+    <h1>BigMart Sales Prediction</h1>
+    <form action="/predict" method="post" id="predictionForm">
+        <div class="form-group">
+            <label for="item_weight">Item Weight</label>
+            <input type="number" step="any" id="item_weight" name="item_weight" required>
+        </div>
+        <div class="form-group">
+            <label for="item_fat_content">Item Fat Content</label>
+            <input type="text" id="item_fat_content" name="item_fat_content" required>
+        </div>
+        <div class="form-group">
+            <label for="item_visibility">Item Visibility</label>
+            <input type="number" step="any" id="item_visibility" name="item_visibility" required>
+        </div>
+        <div class="form-group">
+            <label for="item_type">Item Type</label>
+            <input type="text" id="item_type" name="item_type" required>
+        </div>
+        <div class="form-group">
+            <label for="item_mrp">Item MRP</label>
+            <input type="number" step="any" id="item_mrp" name="item_mrp" required>
+        </div>
+        <div class="form-group">
+            <label for="outlet_establishment_year">Outlet Establishment Year</label>
+            <input type="number" step="any" id="outlet_establishment_year" name="outlet_establishment_year" required>
+        </div>
+        <div class="form-group">
+            <label for="outlet_size">Outlet Size</label>
+            <input type="text" id="outlet_size" name="outlet_size" required>
+        </div>
+        <div class="form-group">
+            <label for="outlet_location_type">Outlet Location Type</label>
+            <input type="text" id="outlet_location_type" name="outlet_location_type" required>
+        </div>
+        <div class="form-group">
+            <label for="outlet_type">Outlet Type</label>
+            <input type="text" id="outlet_type" name="outlet_type" required>
+        </div>
+        <button type="submit" id="submitBtn">Predict</button>
+    </form>
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', function() {
+            var btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = 'Predicting...';
+        });
+    </script>
+</body>
+</html>
