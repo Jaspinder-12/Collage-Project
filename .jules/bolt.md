@@ -1,0 +1,3 @@
+## 2024-04-20 - Lazy Loading ML Models in Route Handlers
+**Learning:** Hardcoding model loading inside Flask route handlers causes significant performance bottlenecks by forcing disk I/O and deserialization on every request.
+**Action:** Use a module-level dictionary (e.g., `model_cache = {}`) to lazy-load and cache the models across requests without using `global` state that might cause `F824` linting errors.
