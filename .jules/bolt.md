@@ -1,0 +1,3 @@
+## 2024-05-14 - Machine Learning Model Inference Optimization
+**Learning:** Deserialization of scikit-learn machine learning models via `joblib.load()` is a heavy, synchronous I/O operation that blocks the request thread. If loaded on every request, it introduces significant per-request latency.
+**Action:** Always lazy-load and cache expensive model objects globally in a module-level dictionary instead of loading them sequentially on every request. This prevents thread scope issues while sharing the stateless model across requests safely.
