@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BigMart Sales Prediction</title>
+</head>
+<body>
+<main>
+<h2>BigMart Sales Prediction</h2>
+<div aria-live="polite" id="a11y-announcer" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;"></div>
+<form action="/predict" method="post" onsubmit="document.getElementById('a11y-announcer').textContent='Predicting...'; document.getElementById('submitBtn').value='Predicting...'; document.getElementById('submitBtn').disabled=true;">
+  <fieldset>
+    <legend>Item Details</legend>
+    <label for="item_weight">Item Weight:</label> <input type="number" id="item_weight" step="any" required name="item_weight" value="9.3"><br>
+    <label for="item_fat_content">Item Fat Content:</label> <input type="number" id="item_fat_content" step="any" required name="item_fat_content" value="0"><br>
+    <label for="item_visibility">Item Visibility:</label> <input type="number" id="item_visibility" step="any" required name="item_visibility" value="0.016"><br>
+    <label for="item_type">Item Type:</label> <input type="number" id="item_type" step="any" required name="item_type" value="4"><br>
+    <label for="item_mrp">Item MRP:</label> <input type="number" id="item_mrp" step="any" required name="item_mrp" value="249.8"><br>
+  </fieldset>
+  <br>
+  <fieldset>
+    <legend>Outlet Details</legend>
+    <label for="outlet_establishment_year">Outlet Establishment Year:</label> <input type="number" id="outlet_establishment_year" step="any" required name="outlet_establishment_year" value="1999"><br>
+    <label for="outlet_size">Outlet Size:</label> <input type="number" id="outlet_size" step="any" required name="outlet_size" value="1"><br>
+    <label for="outlet_location_type">Outlet Location Type:</label> <input type="number" id="outlet_location_type" step="any" required name="outlet_location_type" value="0"><br>
+    <label for="outlet_type">Outlet Type:</label> <input type="number" id="outlet_type" step="any" required name="outlet_type" value="1"><br>
+  </fieldset>
+  <br>
+  <input type="submit" id="submitBtn" value="Predict">
+</form>
+</main>
+</body>
+</html>
