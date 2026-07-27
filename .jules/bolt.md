@@ -1,0 +1,3 @@
+## 2024-04-19 - Lazy Loading ML Models in Flask
+**Learning:** Loading machine learning models (e.g., via `joblib.load`) directly inside a Flask route handler causes the model to be read from disk into memory on every single request. This is a massive performance bottleneck, especially for larger models, leading to high latency and unnecessary CPU/Disk I/O overhead per prediction.
+**Action:** Implement lazy-loading using a module-level dictionary (e.g., `model_cache = {}`). On the first request, load the model and store it in the cache. On subsequent requests, serve the model directly from the in-memory cache. This drastically reduces prediction latency while avoiding the `flake8` `F824` issues associated with using the `global` keyword.
