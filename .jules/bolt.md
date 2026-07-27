@@ -1,0 +1,3 @@
+## 2024-03-18 - Global ML Model Loading Optimization
+**Learning:** Loading large Machine Learning models (like scikit-learn's `StandardScaler` and `LinearRegression` using `joblib`) directly inside a Flask request handler blocks the main thread with heavy I/O operations, leading to severely degraded latency under load.
+**Action:** Always load static, read-only assets like ML models globally at application startup. Wrap the loading in a `try...except FileNotFoundError` block so the application can still boot (e.g., for unit testing or CI/CD pipelines) without crashing when the model artifacts aren't strictly required. Use `os.path.join(os.path.dirname(__file__), ...)` to build paths rather than hardcoding absolute, system-specific paths.
