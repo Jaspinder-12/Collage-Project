@@ -1,0 +1,3 @@
+## 2024-05-24 - Improve Form Inputs for Mobile and Accessibility
+**Learning:** Using `<input type="number" step="any">` for numerical ML features prevents client-side string entry and optimizes the experience on mobile keypads, avoiding backend validation errors (e.g., 400 Bad Request). Additionally, dynamically appending a red asterisk via `label[for]::after` clarifies required fields without altering HTML structure, and adding custom `box-shadow` styles ensures proper focus state visibility.
+**Action:** Use `type="number"` with `step="any"` for any numerical ML model inputs to natively enforce valid inputs. Apply vanilla CSS (`box-shadow`) to maintain robust keyboard accessibility and focus states instead of relying on missing utility classes.
