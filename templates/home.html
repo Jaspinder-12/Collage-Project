@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>BigMart Sales Prediction</h2>
+<form action="/predict" method="post" onsubmit="var btn=this.querySelector('input[type=submit]'); btn.disabled=true; btn.value='Predicting...'; btn.style.cursor='not-allowed'; btn.style.opacity='0.7'; document.getElementById('submit-announcer').textContent='Predicting...';">
+  <label for="item_weight">Item Weight:</label> <input id="item_weight" type="number" step="any" min="0" name="item_weight" value="9.3" required><br>
+  <label for="item_fat_content">Item Fat Content:</label> <input id="item_fat_content" type="number" step="1" min="0" max="4" name="item_fat_content" value="0" required aria-describedby="fat-content-hint"> <small id="fat-content-hint">(0=LF, 1=Low Fat, 2=Regular, 3=low fat, 4=reg)</small><br>
+  <label for="item_visibility">Item Visibility:</label> <input id="item_visibility" type="number" step="any" min="0" name="item_visibility" value="0.016" required><br>
+  <label for="item_type">Item Type:</label> <input id="item_type" type="number" step="1" min="0" max="15" name="item_type" value="4" required><br>
+  <label for="item_mrp">Item MRP:</label> <input id="item_mrp" type="number" step="any" min="0" name="item_mrp" value="249.8" required><br>
+  <label for="outlet_establishment_year">Outlet Establishment Year:</label> <input id="outlet_establishment_year" type="number" step="1" min="1985" name="outlet_establishment_year" value="1999" required><br>
+  <label for="outlet_size">Outlet Size:</label> <input id="outlet_size" type="number" step="1" min="0" max="2" name="outlet_size" value="1" required aria-describedby="outlet-size-hint"> <small id="outlet-size-hint">(0=High, 1=Medium, 2=Small)</small><br>
+  <label for="outlet_location_type">Outlet Location Type:</label> <input id="outlet_location_type" type="number" step="1" min="0" max="2" name="outlet_location_type" value="0" required aria-describedby="location-type-hint"> <small id="location-type-hint">(0=Tier 1, 1=Tier 2, 2=Tier 3)</small><br>
+  <label for="outlet_type">Outlet Type:</label> <input id="outlet_type" type="number" step="1" min="0" max="3" name="outlet_type" value="1" required><br>
+  <div id="submit-announcer" aria-live="polite" class="sr-only" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;"></div>
+  <input type="submit" value="Predict">
+</form>
+</body>
+</html>
