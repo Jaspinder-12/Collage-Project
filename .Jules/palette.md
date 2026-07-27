@@ -1,0 +1,3 @@
+## 2024-05-24 - Improve form inputs with type='number'
+**Learning:** For machine learning web forms where the backend expects numeric data, using `type="text"` creates a poor UX, particularly on mobile devices where a full text keyboard is presented instead of a numeric keypad. Furthermore, it allows accidental submission of text characters, which leads to 400 Bad Request errors when the backend fails to parse them into floats.
+**Action:** Always use `<input type="number" step="any">` for fields that will be cast to floats in the backend. This provides better client-side validation, improves mobile keyboard accessibility, and prevents unnecessary backend validation errors.
