@@ -1,0 +1,4 @@
+## 2025-03-18 - Missing Input Validation Leading to DoS and Server Errors
+**Vulnerability:** The `/predict` endpoint directly accessed `request.form` keys and casted them to `float` without any error handling. If an input was missing or not a number, it caused an unhandled Python exception (e.g., KeyError or ValueError), resulting in a 500 Server Error.
+**Learning:** In Flask applications, missing input validation on publicly accessible routes can cause application crashes, leading to poor user experience, potential denial of service (DoS), and information leakage via stack traces if debugging is enabled.
+**Prevention:** Always wrap request data extraction and casting in a `try...except` block, particularly when dealing with HTML forms. Return a standard 400 Bad Request response securely to gracefully handle malicious or malformed inputs.
