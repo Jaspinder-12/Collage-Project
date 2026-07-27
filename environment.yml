@@ -1,0 +1,14 @@
+name: base
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    - flask
+    - joblib
+    - numpy
+    - scikit-learn
+    - pytest-mock
+    - black
