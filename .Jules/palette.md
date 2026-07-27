@@ -1,0 +1,3 @@
+## 2024-05-18 - Visual Feedback for Disabled Buttons
+**Learning:** When submitting a form asynchronously or indicating a loading state by disabling a button, failing to add clear visual feedback (like `cursor: not-allowed` and reduced `opacity`) leaves users uncertain if the system has registered their action. Relying only on native disabled behavior is often too subtle, especially on custom styled buttons.
+**Action:** Always pair a `disabled` attribute state change with explicit visual CSS changes (`button:disabled { cursor: not-allowed; opacity: 0.7; }`) to provide immediate and unambiguous feedback.
