@@ -1,0 +1,20 @@
+name: base
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - flask
+  - joblib
+  - numpy
+  - scikit-learn
+  - pandas
+  - matplotlib
+  - seaborn
+  - pytest
+  - flake8
+  - pip
+  - pip:
+    - klib
+    - dtale
+    - pandas-profiling
