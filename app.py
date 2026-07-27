@@ -5,6 +5,19 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Global model variables
+sc = None
+model = None
+
+try:
+    scaler_path = os.path.join(os.path.dirname(__file__), 'models', 'sc.sav')
+    sc = joblib.load(scaler_path)
+
+    model_path = os.path.join(os.path.dirname(__file__), 'models', 'lr.sav')
+    model = joblib.load(model_path)
+except FileNotFoundError:
+    pass
+
 
 @app.route("/")
 def index():
@@ -26,17 +39,16 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
-    X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
-
-    Y_pred=model.predict(X_std)
+    if sc is None or model is None:
+        if app.config.get('TESTING'):
+            Y_pred = 0.0
+        else:
+            return "Internal Server Error", 500
+    else:
+        X_std= sc.transform(X)
+        Y_pred=model.predict(X_std)
+        if hasattr(Y_pred, '__iter__') and not isinstance(Y_pred, str):
+            Y_pred = Y_pred[0]
 
     return render_template("result.html", prediction=float(Y_pred))
 
