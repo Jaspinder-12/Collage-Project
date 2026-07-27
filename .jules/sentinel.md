@@ -1,0 +1,4 @@
+## 2024-04-09 - [Stack Trace Leakage in Error Handling]
+**Vulnerability:** Information Exposure (Stack Trace Leakage). The Flask application has `debug=True` enabled in production, and does not handle form parsing errors (`KeyError`, `ValueError`, `TypeError`). When an invalid or incomplete form submission occurs, the application crashes and Flask's interactive debugger exposes sensitive stack traces, file paths, and environment details to the user.
+**Learning:** `debug=True` is dangerous outside of development. Always handle expected user input errors gracefully (e.g., using `try...except`) and return generic error messages (e.g., 400 Bad Request) rather than letting the application crash and expose internals.
+**Prevention:** Always set `debug=False` in production code. Validate and sanitize all user inputs, wrap them in proper error handling blocks, and ensure error messages are secure and do not leak internal system states.
