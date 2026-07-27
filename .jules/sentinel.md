@@ -1,0 +1,4 @@
+## 2024-05-24 - Remove `debug=True` from Flask app.run()
+**Vulnerability:** Running Flask with `debug=True` in production exposes internal application structure and stack traces to end-users on error, potentially leaking sensitive information like configuration paths, database schemas, and source code.
+**Learning:** Development configurations (like debug mode) should never be pushed to a production or main branch unless explicitly wrapped in a secure environment check.
+**Prevention:** Remove `debug=True` by default, or use environment variables (e.g., `FLASK_ENV=development`) to toggle debug mode locally rather than hardcoding it in the application entry point.
