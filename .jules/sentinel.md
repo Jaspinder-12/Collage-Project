@@ -1,0 +1,4 @@
+## 2024-04-01 - Disabled Flask Debug Mode and Added Input Error Handling
+**Vulnerability:** The application was running with Flask debug mode enabled (`app.run(debug=True)`) in what could be a production setting, which exposes stack traces and can lead to Remote Code Execution (RCE) via the Werkzeug debugger. Additionally, there was no error handling when parsing form data in `/predict`, meaning invalid input (or missing fields) would crash the application with a `KeyError`, `ValueError`, or `TypeError`, leaking internal application details via stack traces.
+**Learning:** Hardcoded environment configurations and missing validation logic on input fields commonly interact to expose sensitive internal details.
+**Prevention:** Always default to `debug=False` for production deployments and wrap user-provided inputs in a `try-except` block to return sanitized generic errors without exposing internal exceptions.
