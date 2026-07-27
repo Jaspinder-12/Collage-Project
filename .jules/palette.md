@@ -1,0 +1,3 @@
+## 2024-03-14 - Vanilla CSS Keyboard Focus Accessibility
+**Learning:** In projects strictly using vanilla CSS `<style>` blocks without utility frameworks, `box-shadow: 0 0 0 3px rgba(color)` combined with `outline: none` provides a consistent, highly visible focus ring across different browsers and form element types (inputs, buttons, links). This is a reliable pattern for ensuring keyboard accessibility without adding dependencies.
+**Action:** Use this `box-shadow` pattern along with `transition` effects on `:focus` (for inputs) and `:focus-visible` (for buttons and links) in future vanilla HTML/CSS templates to significantly improve micro-UX and a11y.
