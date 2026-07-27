@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BigMart Sales Prediction</title>
+</head>
+<body>
+    <h1>BigMart Sales Prediction</h1>
+    <form action="/predict" method="post">
+        <label for="item_weight">Item Weight:</label>
+        <input type="number" step="any" name="item_weight" required><br><br>
+
+        <label for="item_fat_content">Item Fat Content:</label>
+        <select name="item_fat_content">
+            <option value="1">Low Fat</option>
+            <option value="2">Regular</option>
+            <option value="0">LF</option>
+            <option value="3">low fat</option>
+            <option value="4">reg</option>
+        </select><br><br>
+
+        <label for="item_visibility">Item Visibility:</label>
+        <input type="number" step="any" name="item_visibility" required><br><br>
+
+        <label for="item_type">Item Type:</label>
+        <select name="item_type">
+            <option value="0">Baking Goods</option>
+            <option value="1">Breads</option>
+            <option value="2">Breakfast</option>
+            <option value="3">Canned</option>
+            <option value="4">Dairy</option>
+            <option value="5">Frozen Foods</option>
+            <option value="6">Fruits and Vegetables</option>
+            <option value="7">Hard Drinks</option>
+            <option value="8">Health and Hygiene</option>
+            <option value="9">Household</option>
+            <option value="10">Meat</option>
+            <option value="11">Others</option>
+            <option value="12">Seafood</option>
+            <option value="13">Snack Foods</option>
+            <option value="14">Soft Drinks</option>
+            <option value="15">Starchy Foods</option>
+        </select><br><br>
+
+        <label for="item_mrp">Item MRP:</label>
+        <input type="number" step="any" name="item_mrp" required><br><br>
+
+        <label for="outlet_establishment_year">Outlet Establishment Year:</label>
+        <input type="number" name="outlet_establishment_year" required><br><br>
+
+        <label for="outlet_size">Outlet Size:</label>
+        <select name="outlet_size">
+            <option value="0">High</option>
+            <option value="1">Medium</option>
+            <option value="2">Small</option>
+        </select><br><br>
+
+        <label for="outlet_location_type">Outlet Location Type:</label>
+        <select name="outlet_location_type">
+            <option value="0">Tier 1</option>
+            <option value="1">Tier 2</option>
+            <option value="2">Tier 3</option>
+        </select><br><br>
+
+        <label for="outlet_type">Outlet Type:</label>
+        <select name="outlet_type">
+            <option value="0">Grocery Store</option>
+            <option value="1">Supermarket Type1</option>
+            <option value="2">Supermarket Type2</option>
+            <option value="3">Supermarket Type3</option>
+        </select><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>
