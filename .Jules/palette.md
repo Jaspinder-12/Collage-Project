@@ -1,0 +1,3 @@
+## 2024-05-18 - Input and Button Focus States
+**Learning:** Pure HTML forms often lack clear focus states for keyboard users. Relying strictly on default browser outlines is insufficient. Adding explicit `:focus` for text inputs and `:focus-visible` for buttons and links (using `outline: none; box-shadow: ...`) significantly enhances keyboard accessibility while ensuring mouse users don't see unnecessary outlines on click.
+**Action:** Always include explicitly styled `:focus` and `:focus-visible` rules for interactive elements in standard HTML templates to improve keyboard navigation without resorting to extensive JS or external libraries.
