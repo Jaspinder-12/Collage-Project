@@ -1,0 +1,3 @@
+## 2024-05-24 - Form Input Types and Backend Errors
+**Learning:** Changing form input types from `text` to `number` (with appropriate `step`, `min`, and `max` constraints) for float and categorical fields prevents backend 500 errors. In Flask applications where the backend casts input explicitly (e.g., `float()`), a text field allows non-numeric strings that lead to `ValueError` crashes. Utilizing `type="number"` solves this at the UI level.
+**Action:** Always check backend endpoints and their data type expectations. When handling explicit conversions for inputs (like floats or categoricals), implement HTML5 numeric input constraints (`type="number"`, `min`, `max`, `step`) rather than standard text fields to provide accessible micro-UX validation.

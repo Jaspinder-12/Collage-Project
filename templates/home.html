@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BigMart Sales Prediction</title>
+</head>
+<body>
+    <h1>BigMart Sales Prediction</h1>
+    <form action="/predict" method="POST">
+        <label for="item_weight">Item Weight:</label>
+        <input type="number" step="any" id="item_weight" name="item_weight"><br><br>
+
+        <label for="item_fat_content">Item Fat Content:</label>
+        <input type="number" min="0" max="4" id="item_fat_content" name="item_fat_content"><br><br>
+
+        <label for="item_visibility">Item Visibility:</label>
+        <input type="number" step="any" id="item_visibility" name="item_visibility"><br><br>
+
+        <label for="item_type">Item Type:</label>
+        <input type="number" min="0" max="15" id="item_type" name="item_type"><br><br>
+
+        <label for="item_mrp">Item MRP:</label>
+        <input type="number" step="any" id="item_mrp" name="item_mrp"><br><br>
+
+        <label for="outlet_establishment_year">Outlet Establishment Year:</label>
+        <input type="number" id="outlet_establishment_year" name="outlet_establishment_year"><br><br>
+
+        <label for="outlet_size">Outlet Size:</label>
+        <input type="number" min="0" max="2" id="outlet_size" name="outlet_size"><br><br>
+
+        <label for="outlet_location_type">Outlet Location Type:</label>
+        <input type="number" min="0" max="2" id="outlet_location_type" name="outlet_location_type"><br><br>
+
+        <label for="outlet_type">Outlet Type:</label>
+        <input type="number" min="0" max="3" id="outlet_type" name="outlet_type"><br><br>
+
+        <input type="submit" value="Predict">
+    </form>
+</body>
+</html>
