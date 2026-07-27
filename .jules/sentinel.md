@@ -1,0 +1,4 @@
+## 2024-05-14 - Exposing Sensitive Information via Debug Mode
+**Vulnerability:** The Flask application was running with `debug=True` in production. This setting exposes stack traces and internal application state to end-users when unhandled exceptions occur.
+**Learning:** `debug=True` is intended strictly for local development environments and can inadvertently leak source code structure, database queries, API endpoints, and environmental variables in a production or publicly accessible context.
+**Prevention:** Ensure `debug` is explicitly set to `False` (or defaults to `False`) in `app.run()` for production deployment. Use environment variables to toggle debug mode rather than hardcoding it, and rely on secure logging mechanisms for error tracking instead of displaying errors to the user.
