@@ -1,0 +1,3 @@
+## 2024-04-11 - Lazy Loading scikit-learn models in Flask routes
+**Learning:** Deserialization of scikit-learn machine learning models via `joblib.load()` is a heavy, synchronous I/O operation that blocks the request thread. To prevent significant per-request latency, these models must be lazy-loaded and cached globally rather than loaded sequentially on every request.
+**Action:** Implemented a global `model_cache` dictionary to lazy-load models the first time they are accessed, then reuse the cached instances on subsequent requests, improving response times.
