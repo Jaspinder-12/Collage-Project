@@ -1,0 +1,4 @@
+## 2024-05-24 - Handle Unhandled Exceptions in User Input Form Endpoints
+**Vulnerability:** The `/predict` endpoint attempted to fetch items from `request.form` and cast them to `float` without any error handling. If a user omitted a field or provided a non-numeric value, a `KeyError` or `ValueError` would be raised, leading to a 500 Internal Server Error. This can expose stack traces (if `debug=True`) or cause Denial-of-Service (DoS) if triggered rapidly.
+**Learning:** Raw input must never be implicitly trusted or casted without validation. Form data represents user input, which can be easily manipulated or absent.
+**Prevention:** Wrap form extraction and type casting in a `try...except (KeyError, ValueError, TypeError)` block and return a `400 Bad Request` plain text response. Also, explicitly set `debug=False` for Flask apps to prevent stack trace leaks in case 500 errors still happen.
