@@ -1,0 +1,8 @@
+name: base
+dependencies:
+  - python=3.10
+  - flask
+  - joblib
+  - numpy
+  - scikit-learn
+  - pytest-mock

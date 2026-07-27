@@ -1,0 +1,3 @@
+## 2024-05-08 - Caching Interdependent ML Models
+**Learning:** Loading machine learning models (like scikit-learn models and scalers) from disk on every prediction request is a major performance bottleneck. Caching them in memory improves speed significantly, but when dealing with interdependent assets (like a scaler and a model), they must be cached together checking for all assets in the condition to prevent partial cache state bugs.
+**Action:** Always lazy-load and cache expensive ML models at the application level, and explicitly group the cache population for assets that are dependent on each other.
