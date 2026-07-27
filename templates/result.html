@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prediction Result - BigMart Sales Prediction</title>
+</head>
+<body>
+<main>
+<h2>Prediction Result</h2>
+<p role="status">Predicted Sales: <strong id="prediction-value">{{ prediction }}</strong></p>
+<script>
+  const predElem = document.getElementById('prediction-value');
+  const rawValue = parseFloat(predElem.textContent);
+  if (!isNaN(rawValue)) {
+    predElem.textContent = rawValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+</script>
+<br>
+<a href="/">Return to Prediction Form</a>
+</main>
+</body>
+</html>
