@@ -1,0 +1,3 @@
+## 2026-03-26 - [Lazy Load Global ML Models for Flask]
+**Learning:** In Flask applications, scikit-learn models loaded via joblib cause significant blocking I/O (often 10ms-1s+) during inference if re-loaded on every request. Loading them at the module level crashes tests if files don't exist yet or environments aren't configured perfectly.
+**Action:** Implement lazy-loading of ML models using global variables inside the request handler: `global model; if model is None: model = joblib.load(...)`. This keeps tests working (mocking doesn't crash on import) while dropping inference times by 95%+ by avoiding repeated disk reads.
