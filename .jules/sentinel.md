@@ -1,0 +1,4 @@
+## 2024-04-07 - Flask Debug Mode Exposed
+**Vulnerability:** The Flask application had `debug=True` enabled in production inside `app.run()`. This exposes the Werkzeug interactive debugger if an error occurs, which can lead to Remote Code Execution (RCE) by allowing an attacker to execute arbitrary Python code, as well as leaking sensitive source code and environment information via stack traces.
+**Learning:** Debug mode should only be used during local development. It is critical to ensure `debug` is either explicitly set to `False` or defaults to `False` in any environment that might be exposed to users.
+**Prevention:** Never use `app.run(debug=True)` in production code. Prefer using environment variables (e.g., `FLASK_ENV=development` or `FLASK_DEBUG=1`) to toggle debug mode locally, ensuring the default behavior is secure out of the box.
