@@ -1,0 +1,4 @@
+## 2024-03-30 - Fix Information Leakage and DoS Risk
+**Vulnerability:** The Flask `/predict` endpoint parses inputs directly to `float` and the `app.run` uses `debug=True`. If incorrect inputs are provided, this causes a 500 Internal Server Error, returning a full stack trace which leaks the local file structure and potentially sensitive configuration to the end user.
+**Learning:** By directly casting HTML form inputs to `float` without try-except handling, any invalid input (or missing key) crashes the request thread completely rather than gracefully responding with a client error. Furthermore, `debug=True` in production exposes code internals in error responses.
+**Prevention:** Wrap all form parsing in `try...except (KeyError, ValueError, TypeError)` blocks returning a safe 400 Bad Request error. Ensure `debug=False` for Flask applications in production to restrict information leakage.
