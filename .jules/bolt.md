@@ -1,0 +1,3 @@
+## 2024-04-01 - Synchronous Model Deserialization Blocks Request Threads
+**Learning:** scikit-learn machine learning models loaded via `joblib.load()` involve heavy, synchronous I/O operations. Loading these models inside a request handler (like Flask's `@app.route`) sequentializes requests and introduces significant per-request latency. However, these models are stateless during inference.
+**Action:** Lazily load models and cache them globally in a module-level dictionary (`model_cache = {}`). This eliminates the latency on subsequent requests and safely shares the model across concurrent requests without thread-safety issues.
