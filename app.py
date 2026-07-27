@@ -5,6 +5,8 @@ import numpy as np
 
 app = Flask(__name__)
 
+ml_cache = {}
+
 
 @app.route("/")
 def index():
@@ -26,19 +28,23 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    # ⚡ Bolt: Performance Optimization - Cache the scaler and model to prevent disk I/O on every request
+    if 'sc' not in ml_cache or 'model' not in ml_cache:
+        scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+        sc=joblib.load(scaler_path)
+        model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+        model= joblib.load(model_path)
+        ml_cache['sc'] = sc
+        ml_cache['model'] = model
 
-    sc=joblib.load(scaler_path)
+    sc = ml_cache['sc']
+    model = ml_cache['model']
 
     X_std= sc.transform(X)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
-
     Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction=float(Y_pred[0]))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    app.run(debug=False, port=9457)
