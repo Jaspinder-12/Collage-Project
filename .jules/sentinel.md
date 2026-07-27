@@ -1,0 +1,4 @@
+## 2024-05-09 - Disable Flask Debug Mode & Add Input Validation
+**Vulnerability:** Flask was configured with `debug=True` in production code, and the `/predict` endpoint lacked input validation.
+**Learning:** Running Flask with `debug=True` enables the Werkzeug interactive debugger, allowing Remote Code Execution (RCE) if exposed to the internet. Missing input validation on request data led to unhandled `KeyError` or `ValueError`, potentially exposing stack traces.
+**Prevention:** Always set `debug=False` in production or rely on environment variables (e.g., `FLASK_ENV=production`). Wrap user input parsing in `try-except` blocks and return generic HTTP error responses (e.g., 400 Bad Request) instead of exposing application internals.
