@@ -1,0 +1,4 @@
+## 2024-05-15 - RCE and Stack Trace Leakage via Flask Debug Mode and Unhandled Input
+**Vulnerability:** Flask application ran with `debug=True`, exposing the Werkzeug interactive debugger which can lead to Remote Code Execution (RCE). Additionally, direct casting of `request.form` values without validation caused 500 Internal Server Errors, leaking stack traces.
+**Learning:** Hardcoded `debug=True` in production code and lack of `try...except` blocks around type conversions are common patterns that expose application internals and infrastructure.
+**Prevention:** Always set `debug=False` in `app.run()` and wrap form data extraction in `try...except (ValueError, KeyError)` blocks to return controlled 400 Bad Request responses.
