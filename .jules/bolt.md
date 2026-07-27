@@ -1,0 +1,3 @@
+## 2026-03-04 - Global Model Loading Optimization
+**Learning:** The application (`app.py`) was reloading the entire machine learning model and scaler from disk into memory (`joblib.load`) inside the `/predict` route handler for every single HTTP request. This codebase-specific pattern caused significant disk I/O bottlenecks and high latency for predictions.
+**Action:** Move `joblib.load` operations to the global module scope outside route definitions. Wrap model instantiation in `try...except FileNotFoundError` blocks to gracefully fail loudly or handle missing model artifacts during startup and testing without degrading user experience or crashing on startup.
