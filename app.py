@@ -26,19 +26,20 @@ def result():
     X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                   outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    scaler_path = os.path.join(base_path, 'models', 'sc.sav')
 
     sc=joblib.load(scaler_path)
 
     X_std= sc.transform(X)
 
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
+    model_path = os.path.join(base_path, 'models', 'lr.sav')
 
     model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
-    return render_template("result.html", prediction=float(Y_pred))
+    return render_template("result.html", prediction="{:.2f}".format(float(Y_pred[0])))
 
 if __name__ == "__main__":
     app.run(debug=True, port=9457)
