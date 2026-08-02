@@ -1,0 +1,3 @@
+## 2024-05-24 - Form Field Hint Accessibility
+**Learning:** Helper text below form inputs (like "The percentage of total display area allocated...") is invisible to screen reader users unless explicitly associated with the input field. Relying solely on visual proximity is an accessibility barrier.
+**Action:** Always use `aria-describedby` on the `<input>` element to reference the `id` of the element containing the helper text/hint. This ensures screen readers announce the extra context when the field receives focus.
