@@ -3,17 +3,19 @@ import joblib
 import os
 import numpy as np
 
+# ⚡ Bolt: Cache machine learning models globally in memory at startup rather than
+# synchronously loading from disk on each /predict request.
+# This prevents disk I/O and deserialization from degrading response latency.
+base_dir = os.path.dirname(os.path.abspath(__file__))
+sc = joblib.load(os.path.join(base_dir, 'models', 'sc.sav'))
+model = joblib.load(os.path.join(base_dir, 'models', 'lr.sav'))
+
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
     return render_template("home.html")
-
-# Cache models in memory at startup
-base_dir = os.path.dirname(os.path.abspath(__file__))
-sc = joblib.load(os.path.join(base_dir, 'models', 'sc.sav'))
-model = joblib.load(os.path.join(base_dir, 'models', 'lr.sav'))
 
 @app.route('/predict',methods=['POST','GET'])
 def result():
@@ -40,4 +42,5 @@ def result():
         return render_template("home.html")
 
 if __name__ == "__main__":
+    # 🛡️ Sentinel: Disable debug mode to prevent RCE and stack trace leakage in production
     app.run(debug=False, port=9457)
