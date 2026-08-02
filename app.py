@@ -39,4 +39,5 @@ def result():
     return render_template("result.html", prediction=float(Y_pred))
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    # 🛡️ Sentinel: Disable debug mode to prevent RCE and stack trace leakage in production
+    app.run(debug=False, port=9457)
