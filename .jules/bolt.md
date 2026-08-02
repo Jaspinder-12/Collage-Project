@@ -1,3 +1,3 @@
-## 2024-07-17 - Caching machine learning models globally
-**Learning:** Loading large machine learning models (like those saved with joblib) inside a route handler causes severe synchronous disk I/O and deserialization latency on every request.
-**Action:** Always cache these models in memory by loading them globally at startup.
+## 2024-07-13 - Cache Models at Startup
+**Learning:** Loading and deserializing ML models (like joblib.load) on every request severely degrades response latency and increases disk I/O.
+**Action:** Always cache machine learning models globally in memory at application startup rather than synchronously loading them inside route handlers.
