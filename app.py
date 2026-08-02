@@ -3,13 +3,12 @@ import joblib
 import os
 import numpy as np
 
-app = Flask(__name__)
-
 # ⚡ Bolt: Cache machine learning models globally at startup to eliminate synchronous disk I/O and deserialization overhead during request handling
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sc = joblib.load(os.path.join(BASE_DIR, 'models', 'sc.sav'))
 model = joblib.load(os.path.join(BASE_DIR, 'models', 'lr.sav'))
 
+app = Flask(__name__)
 
 @app.route("/")
 def index():
@@ -40,4 +39,5 @@ def result():
         return render_template("home.html")
 
 if __name__ == "__main__":
-    app.run(debug=True, port=9457)
+    # 🛡️ Sentinel: Disable debug mode to prevent RCE and stack trace leakage in production
+    app.run(debug=False, port=9457)
