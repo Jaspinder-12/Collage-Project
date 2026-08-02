@@ -1,6 +1,9 @@
 name: base
+<<<<<<< HEAD
+=======
 channels:
   - defaults
+>>>>>>> a573b4d (Commit changes before rebase)
 dependencies:
   - python=3.10
   - flask
