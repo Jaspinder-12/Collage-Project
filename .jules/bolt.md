@@ -1,3 +1,3 @@
-## 2024-07-14 - Global Model Caching
-**Learning:** In the Collage-Project application (`app.py`), machine learning models (`sc.sav`, `lr.sav`) were being loaded from disk inside the `/predict` route handler, causing synchronous disk I/O and deserialization overhead on every request.
-**Action:** Cache machine learning models globally at startup instead of inside request handlers to prevent latency degradation.
+## 2024-07-13 - Cache Models at Startup
+**Learning:** Loading and deserializing ML models (like joblib.load) on every request severely degrades response latency and increases disk I/O.
+**Action:** Always cache machine learning models globally in memory at application startup rather than synchronously loading them inside route handlers.
