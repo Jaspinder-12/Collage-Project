@@ -1,6 +1,4 @@
 name: base
-channels:
-  - defaults
 dependencies:
   - python=3.10
   - flask
@@ -9,5 +7,5 @@ dependencies:
   - scikit-learn
   - pip
   - pip:
-      - pytest
-      - flake8
+    - pytest
+    - flake8

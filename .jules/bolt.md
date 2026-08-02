@@ -1,3 +1,3 @@
-## 2024-07-15 - Global Model Caching in Flask
-**Learning:** Loading machine learning models dynamically within a request handler causes severe performance degradation due to synchronous disk I/O and deserialization overhead blocking the main thread on every request.
-**Action:** Always cache models globally in memory at application startup to ensure low-latency predictions.
+## 2024-07-13 - Cache Models at Startup
+**Learning:** Loading and deserializing ML models (like joblib.load) on every request severely degrades response latency and increases disk I/O.
+**Action:** Always cache machine learning models globally in memory at application startup rather than synchronously loading them inside route handlers.
