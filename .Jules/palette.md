@@ -1,0 +1,3 @@
+## 2026-03-28 - Add aria-live to dynamic button text
+**Learning:** When using JavaScript to dynamically update button text during async operations (e.g., from "Predict Sales" to "Predicting..."), the new state is visually apparent but entirely missed by screen readers.
+**Action:** Always add `aria-live="polite"` to interactive elements where text or state dynamically changes to ensure screen reader users receive auditory feedback about the loading state without their flow being aggressively interrupted.
