@@ -1,6 +1,15 @@
 from flask import Flask, render_template, request
 import joblib
 import numpy as np
+import os
+
+# ⚡ Bolt: Cache machine learning models globally in memory at startup rather than
+# synchronously loading from disk on each /predict request.
+# This prevents disk I/O and deserialization from degrading response latency.
+scaler_path = os.path.join('models', 'sc.sav')
+sc = joblib.load(scaler_path)
+model_path = os.path.join('models', 'lr.sav')
+model = joblib.load(model_path)
 
 app = Flask(__name__)
 
@@ -27,15 +36,7 @@ def result():
         X= np.array([[ item_weight,item_fat_content,item_visibility,item_type,item_mrp,
                       outlet_establishment_year,outlet_size,outlet_location_type,outlet_type ]])
 
-        scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-        sc=joblib.load(scaler_path)
-
         X_std= sc.transform(X)
-
-        model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-        model= joblib.load(model_path)
 
         Y_pred=model.predict(X_std)
 
@@ -49,5 +50,5 @@ def result():
 
 
 if __name__ == "__main__":
-    # 🛡️ Sentinel: Disabled debug mode to prevent exposing interactive debugger and internal stack traces
+    # 🛡️ Sentinel: Disable debug mode to prevent RCE and stack trace leakage in production
     app.run(debug=False, port=9457)
