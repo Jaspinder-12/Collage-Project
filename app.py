@@ -5,6 +5,13 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Pre-load models to improve performance and prevent synchronous disk I/O latency
+scaler_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "sc.sav")
+sc = joblib.load(scaler_path)
+
+model_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "models", "lr.sav")
+model = joblib.load(model_path)
+
 
 @app.route("/")
 def index():
@@ -30,15 +37,7 @@ def result():
     except (ValueError, KeyError):
         return render_template("home.html", error="Invalid input data provided.")
 
-    scaler_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\sc.sav"
-
-    sc=joblib.load(scaler_path)
-
     X_std= sc.transform(X)
-
-    model_path=r"D:\projects\BigMart-Sales-Prediction-With-Deployment-main\models\lr.sav"
-
-    model= joblib.load(model_path)
 
     Y_pred=model.predict(X_std)
 
