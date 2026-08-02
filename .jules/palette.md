@@ -1,0 +1,3 @@
+## 2024-05-18 - Mobile Keyboard and Input Constraints via HTML5 attributes
+**Learning:** Purely numerical or categorically encoded form input fields that expect floats or integers often use `type="text"`, which brings up the standard QWERTY keyboard on mobile and allows non-numeric submissions that cause 500 errors on the backend.
+**Action:** Always prefer `type="number" step="any"` for float inputs (e.g., weights, prices) and `type="number"` with `min` and `max` attributes for known categorical constraints. This improves mobile UX by triggering the numpad and provides client-side validation for free without relying on custom CSS or JS.
